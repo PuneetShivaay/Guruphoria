@@ -2,9 +2,9 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-npm create vite@latest
-npm i
-npm install tailwindcss @tailwindcss/vite
+## npm create vite@latest
+## npm i
+## npm install tailwindcss @tailwindcss/vite
 
 
 Currently, two official plugins are available:

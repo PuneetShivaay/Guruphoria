@@ -1,15 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Navbar from "./components/navbar/Navbar"
+import Footer from "./components/footer/Footer"
+import Home from "./pages/home/Home"
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-  <h1 className='3xl font-bold underline'>Guiruphoria App</h1>
-  
+      <Router>
+        <main className="w-full bg-neutral-50 flex min-h-screen flex-col text-neutral-500">
+          {/* Navbar section */}
+          <Navbar />
+
+          {/* Routes */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+
+          {/* Footer Section */}
+          <Footer />
+        </main>
+      </Router>
     </>
   )
 }

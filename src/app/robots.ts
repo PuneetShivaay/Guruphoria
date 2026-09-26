@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { site } from '@/content/site';
 
 export const dynamic = 'force-static';
 
@@ -9,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/'],
     },
-    sitemap: 'https://guruphoria.com/sitemap.xml',
+    sitemap: `${site.url}/sitemap.xml`,
   };
 }

@@ -22,36 +22,36 @@ export function Story() {
 
       <div className="mt-14 grid gap-12 md:grid-cols-[1fr_340px]">
         <ol className="relative border-l border-white/12 pl-8">
-          {timeline.map((t) => (
-            <li key={t.year} className="relative pb-10 last:pb-0">
+          {timeline.map((entry) => (
+            <li key={entry.year} className="relative pb-10 last:pb-0">
               <span className="absolute -left-[38px] top-1.5 h-2.5 w-2.5 rounded-full bg-brand-300 ring-4 ring-brand-900" />
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-300">
-                {t.year}
+                {entry.year}
               </p>
-              <h3 className="mt-2 font-headline text-xl font-bold text-white">{t.title}</h3>
-              <p className="mt-2 max-w-xl leading-relaxed text-white/55">{t.body}</p>
+              <h3 className="mt-2 font-headline text-xl font-bold text-white">{entry.title}</h3>
+              <p className="mt-2 max-w-xl leading-relaxed text-white/55">{entry.body}</p>
             </li>
           ))}
         </ol>
 
         <div className="grid grid-cols-2 gap-3 self-start">
-          {storyPhotos.map((p) =>
-            p.src ? (
+          {storyPhotos.map((photo) =>
+            photo.src ? (
               <Image
-                key={p.caption}
-                src={p.src}
-                alt={p.caption}
+                key={photo.caption}
+                src={photo.src}
+                alt={photo.caption}
                 width={320}
                 height={240}
                 className="aspect-[4/3] w-full rounded-xl object-cover"
               />
             ) : (
               <div
-                key={p.caption}
+                key={photo.caption}
                 className="flex aspect-[4/3] items-end rounded-xl border border-white/10 bg-white/[0.04] p-3"
               >
                 <span className="text-[10px] uppercase tracking-wider text-white/35">
-                  {p.caption}
+                  {photo.caption}
                 </span>
               </div>
             ),
@@ -79,31 +79,34 @@ export function Proof() {
           className="max-w-xl"
         />
         <div className="flex flex-wrap gap-3">
-          {site.ratings.map((r) => (
+          {site.ratings.map((rating) => (
             <RatingBadge
-              key={r.source}
-              score={r.score}
-              source={r.source}
-              count={r.count}
-              href={r.href || undefined}
+              key={rating.source}
+              score={rating.score}
+              source={rating.source}
+              count={rating.count}
+              href={rating.href || undefined}
             />
           ))}
         </div>
       </div>
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 sm:mt-12">
-        {testimonials.map((t, i) => (
+        {testimonials.map((testimonial) => (
           /* min-w-0: grid items default to min-width:auto, which would let the
              nowrap caption below force the card wider than the viewport. */
-          <figure key={i} className="card-hairline flex min-w-0 flex-col p-6 sm:p-7">
+          <figure
+            key={testimonial.name}
+            className="card-hairline flex min-w-0 flex-col p-6 sm:p-7"
+          >
             <blockquote className="flex-1 font-headline text-base leading-relaxed tracking-tight text-brand-700 sm:text-lg">
-              &ldquo;{t.quote}&rdquo;
+              &ldquo;{testimonial.quote}&rdquo;
             </blockquote>
             <figcaption className="mt-6 flex items-center gap-3 border-t border-brand-700/10 pt-5">
-              {t.photo ? (
+              {testimonial.photo ? (
                 <Image
-                  src={t.photo}
-                  alt={t.name}
+                  src={testimonial.photo}
+                  alt={testimonial.name}
                   width={40}
                   height={40}
                   className="h-10 w-10 shrink-0 rounded-full object-cover"
@@ -112,9 +115,9 @@ export function Proof() {
                 <span className="h-10 w-10 shrink-0 rounded-full bg-brand-100" />
               )}
               <span className="min-w-0">
-                <span className="block text-sm font-semibold">{t.name}</span>
+                <span className="block text-sm font-semibold">{testimonial.name}</span>
                 <span className="block truncate text-xs text-foreground/50">
-                  {t.program} · {t.year} · Now {t.now}
+                  {testimonial.program} · {testimonial.year} · Now {testimonial.now}
                 </span>
               </span>
             </figcaption>

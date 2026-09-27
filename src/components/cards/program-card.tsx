@@ -27,8 +27,8 @@ export function ProgramCard({
         ) : (
           <Chip>{program.category}</Chip>
         )}
-        {program.languages.map((l) => (
-          <Chip key={l}>{l}</Chip>
+        {program.languages.map((language) => (
+          <Chip key={language}>{language}</Chip>
         ))}
       </div>
 
@@ -40,14 +40,16 @@ export function ProgramCard({
       </p>
 
       <ol className="mt-6 flex-1 space-y-2.5 border-t border-brand-700/10 pt-6">
-        {program.modules.map((m, i) => (
-          <li key={m.title} className="flex items-baseline gap-3 text-sm text-foreground/70">
+        {program.modules.map((module, index) => (
+          <li key={module.title} className="flex items-baseline gap-3 text-sm text-foreground/70">
             <span className="w-5 shrink-0 font-mono text-xs text-brand-500">
-              {String(i + 1).padStart(2, '0')}
+              {String(index + 1).padStart(2, '0')}
             </span>
             <span>
-              {m.title}
-              {m.lessons ? <span className="ml-1.5 text-foreground/35">· {m.lessons}</span> : null}
+              {module.title}
+              {module.lessons ? (
+                <span className="ml-1.5 text-foreground/35">· {module.lessons}</span>
+              ) : null}
             </span>
           </li>
         ))}

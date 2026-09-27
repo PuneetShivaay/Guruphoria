@@ -43,14 +43,14 @@ export default function StoryPage() {
             <SectionHeading onDeep label="Timeline" title="Six years, two chapters." />
 
             <ol className="relative mt-12 border-l border-white/20 pl-8">
-              {timeline.map((t) => (
-                <li key={t.year} className="relative pb-10 last:pb-0">
+              {timeline.map((entry) => (
+                <li key={entry.year} className="relative pb-10 last:pb-0">
                   <span className="absolute -left-[38px] top-1.5 h-2.5 w-2.5 rounded-full bg-brand-300 ring-4 ring-brand-900" />
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-300">
-                    {t.year}
+                    {entry.year}
                   </p>
-                  <h3 className="mt-2 font-headline text-xl font-bold text-white">{t.title}</h3>
-                  <p className="mt-2 max-w-xl leading-relaxed text-white/70">{t.body}</p>
+                  <h3 className="mt-2 font-headline text-xl font-bold text-white">{entry.title}</h3>
+                  <p className="mt-2 max-w-xl leading-relaxed text-white/70">{entry.body}</p>
                 </li>
               ))}
             </ol>
@@ -58,16 +58,16 @@ export default function StoryPage() {
 
           {/* archive photographs */}
           <div className="grid grid-cols-2 gap-3 self-start">
-            {storyPhotos.map((p) => (
+            {storyPhotos.map((photo) => (
               <figure
-                key={p.caption}
+                key={photo.caption}
                 className="relative flex aspect-[4/3] items-end overflow-hidden rounded-xl border border-white/15 bg-white/[0.07] p-3"
               >
-                {p.src && (
-                  <Image src={p.src} alt={p.caption} fill className="object-cover" sizes="200px" />
+                {photo.src && (
+                  <Image src={photo.src} alt={photo.caption} fill className="object-cover" sizes="200px" />
                 )}
                 <figcaption className="relative text-[10px] uppercase tracking-wider text-white/55">
-                  {p.caption}
+                  {photo.caption}
                 </figcaption>
               </figure>
             ))}
@@ -142,13 +142,13 @@ export default function StoryPage() {
             intro="The institute is online now, but the reviews from the classroom years have not gone anywhere."
           />
           <div className="flex gap-3">
-            {site.ratings.map((r) => (
+            {site.ratings.map((rating) => (
               <RatingBadge
-                key={r.source}
-                score={r.score}
-                source={r.source}
-                count={r.count}
-                href={r.href || undefined}
+                key={rating.source}
+                score={rating.score}
+                source={rating.source}
+                count={rating.count}
+                href={rating.href || undefined}
               />
             ))}
           </div>

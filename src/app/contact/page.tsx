@@ -54,15 +54,15 @@ export default function ContactPage() {
             <SectionHeading label="Get in touch" title="What brings you here?" />
 
             <ul className="mt-10 space-y-px overflow-hidden rounded-2xl border border-brand-700/12 bg-brand-700/12">
-              {reasons.map((r, i) => (
-                <li key={r.title} className="flex items-baseline gap-5 bg-card px-6 py-5">
+              {reasons.map((reason, index) => (
+                <li key={reason.title} className="flex items-baseline gap-5 bg-card px-6 py-5">
                   <span className="w-7 shrink-0 font-mono text-sm text-brand-500">
-                    {String(i + 1).padStart(2, '0')}
+                    {String(index + 1).padStart(2, '0')}
                   </span>
                   <span>
-                    <span className="block font-medium text-foreground/85">{r.title}</span>
+                    <span className="block font-medium text-foreground/85">{reason.title}</span>
                     <span className="mt-1 block text-sm leading-relaxed text-foreground/50">
-                      {r.body}
+                      {reason.body}
                     </span>
                   </span>
                 </li>

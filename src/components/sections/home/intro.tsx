@@ -27,26 +27,26 @@ export function ChapterTwo() {
  * Splitting them beats blending both into vague copy.
  */
 export function TwoDoors() {
-  const bySlug = new Map(programs.map((p) => [p.slug, p]));
+  const bySlug = new Map(programs.map((program) => [program.slug, program]));
 
   return (
     <Section tone="white">
       <SectionHeading label="Start here" title="Where are you right now?" />
 
       <div className="mt-10 grid gap-5 md:grid-cols-2">
-        {audiences.map((a) => (
+        {audiences.map((audience) => (
           <Link
-            key={a.id}
-            href={`/programs?for=${a.id}`}
+            key={audience.id}
+            href={`/programs?for=${audience.id}`}
             className="card-hairline group p-8"
           >
             <h3 className="font-headline text-2xl font-bold tracking-tight text-brand-700">
-              {a.title}
+              {audience.title}
             </h3>
-            <p className="mt-3 leading-relaxed text-foreground/60">{a.blurb}</p>
+            <p className="mt-3 leading-relaxed text-foreground/60">{audience.blurb}</p>
 
             <ul className="mt-6 space-y-2">
-              {a.programs.map((slug) => (
+              {audience.programs.map((slug) => (
                 <li key={slug} className="flex items-center gap-2.5 text-sm text-foreground/75">
                   <span className="h-1 w-1 rounded-full bg-brand-500" />
                   {bySlug.get(slug)?.title ?? slug}

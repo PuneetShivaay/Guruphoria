@@ -18,8 +18,8 @@ export function Programs() {
       />
 
       <div className="mt-12 grid gap-5 md:grid-cols-2">
-        {programs.map((p) => (
-          <ProgramCard key={p.slug} program={p} />
+        {programs.map((program) => (
+          <ProgramCard key={program.slug} program={program} />
         ))}
       </div>
     </Section>

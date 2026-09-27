@@ -102,19 +102,19 @@ export function Footer() {
           </div>
 
           {/* ---- link columns ---- */}
-          {columns.map((col) => (
-            <nav key={col.title} aria-label={col.title}>
+          {columns.map((column) => (
+            <nav key={column.title} aria-label={column.title}>
               <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/45">
-                {col.title}
+                {column.title}
               </h2>
               <ul className="mt-4 space-y-2.5">
-                {col.links.map((l) => (
-                  <li key={l.label}>
+                {column.links.map((link) => (
+                  <li key={link.label}>
                     <Link
-                      href={l.href}
+                      href={link.href}
                       className="text-sm text-foreground/70 transition hover:text-brand-700"
                     >
-                      {l.label}
+                      {link.label}
                     </Link>
                   </li>
                 ))}

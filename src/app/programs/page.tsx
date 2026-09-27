@@ -21,9 +21,9 @@ const totals = [
 ];
 
 export default function ProgramsPage() {
-  const careerSkills = programs.filter((p) => p.category === 'Career Skills');
-  const aiTrack = programs.filter((p) => p.category === 'AI Track');
-  const bySlug = new Map(programs.map((p) => [p.slug, p]));
+  const careerSkills = programs.filter((program) => program.category === 'Career Skills');
+  const aiTrack = programs.filter((program) => program.category === 'AI Track');
+  const bySlug = new Map(programs.map((program) => [program.slug, program]));
 
   return (
     <>
@@ -48,8 +48,8 @@ export default function ProgramsPage() {
           intro="What gets you hired: the ability to build, the ability to work with data, and the ability to speak for yourself in a room."
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2">
-          {careerSkills.map((p) => (
-            <ProgramCard key={p.slug} program={p} />
+          {careerSkills.map((program) => (
+            <ProgramCard key={program.slug} program={program} />
           ))}
         </div>
       </Section>
@@ -62,8 +62,8 @@ export default function ProgramsPage() {
           intro="Our newest work. We are honest about its size — this is a lab that is filling up, not a finished catalogue."
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2">
-          {aiTrack.map((p) => (
-            <ProgramCard key={p.slug} program={p} />
+          {aiTrack.map((program) => (
+            <ProgramCard key={program.slug} program={program} />
           ))}
         </div>
       </Section>
@@ -75,17 +75,17 @@ export default function ProgramsPage() {
           title="Pick the path that matches you."
         />
         <div className="mt-10 grid gap-5 md:grid-cols-2">
-          {audiences.map((a) => (
-            <div key={a.id} className="card-hairline p-8">
+          {audiences.map((audience) => (
+            <div key={audience.id} className="card-hairline p-8">
               <h3 className="font-headline text-2xl font-bold tracking-tight text-brand-700">
-                {a.title}
+                {audience.title}
               </h3>
-              <p className="mt-3 leading-relaxed text-foreground/60">{a.blurb}</p>
+              <p className="mt-3 leading-relaxed text-foreground/60">{audience.blurb}</p>
 
               <ol className="mt-6 space-y-3 border-t border-brand-700/10 pt-6">
-                {a.programs.map((slug, i) => {
-                  const p = bySlug.get(slug);
-                  if (!p) return null;
+                {audience.programs.map((slug, index) => {
+                  const program = bySlug.get(slug);
+                  if (!program) return null;
                   return (
                     <li key={slug}>
                       <Link
@@ -93,9 +93,9 @@ export default function ProgramsPage() {
                         className="group flex items-baseline gap-3 text-sm text-foreground/75 transition hover:text-brand-700"
                       >
                         <span className="w-5 shrink-0 font-mono text-xs text-brand-500">
-                          {String(i + 1).padStart(2, '0')}
+                          {String(index + 1).padStart(2, '0')}
                         </span>
-                        <span className="flex-1">{p.title}</span>
+                        <span className="flex-1">{program.title}</span>
                         <ArrowRight className="h-3.5 w-3.5 shrink-0 text-brand-500 opacity-0 transition group-hover:opacity-100" />
                       </Link>
                     </li>

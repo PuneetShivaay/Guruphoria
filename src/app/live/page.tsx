@@ -100,8 +100,8 @@ export default function LivePage() {
         />
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {archive.map((v) => (
-            <VideoCard key={v.title} video={v} />
+          {archive.map((video) => (
+            <VideoCard key={video.title} video={video} />
           ))}
         </div>
 
@@ -111,15 +111,15 @@ export default function LivePage() {
             Browse the full library by program
           </h3>
           <div className="mt-6 flex flex-wrap gap-3">
-            {programs.map((p) => (
+            {programs.map((program) => (
               <Link
-                key={p.slug}
-                href={`/programs/${p.slug}`}
+                key={program.slug}
+                href={`/programs/${program.slug}`}
                 className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground/75 transition hover:border-brand-500 hover:bg-brand-50 hover:text-brand-700"
               >
-                {p.title}
+                {program.title}
                 <span className="text-xs text-foreground/40 group-hover:text-brand-500">
-                  {p.lessonCount}
+                  {program.lessonCount}
                 </span>
               </Link>
             ))}

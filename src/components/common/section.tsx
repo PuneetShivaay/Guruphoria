@@ -159,9 +159,9 @@ export function StatStrip({
         className,
       )}
     >
-      {items.map((s) => (
-        <div key={s.label} className={cn('px-4 py-5 sm:px-6 sm:py-7', onDeep ? 'bg-brand-900' : 'bg-card')}>
-          <dt className="sr-only">{s.label}</dt>
+      {items.map((stat) => (
+        <div key={stat.label} className={cn('px-4 py-5 sm:px-6 sm:py-7', onDeep ? 'bg-brand-900' : 'bg-card')}>
+          <dt className="sr-only">{stat.label}</dt>
           <dd>
             <span
               className={cn(
@@ -169,7 +169,7 @@ export function StatStrip({
                 onDeep ? 'text-white' : 'text-brand-700',
               )}
             >
-              {s.value}
+              {stat.value}
             </span>
             <span
               className={cn(
@@ -177,7 +177,7 @@ export function StatStrip({
                 onDeep ? 'text-white/55' : 'text-foreground/45',
               )}
             >
-              {s.label}
+              {stat.label}
             </span>
           </dd>
         </div>

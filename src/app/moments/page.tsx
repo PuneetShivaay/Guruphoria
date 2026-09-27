@@ -53,20 +53,20 @@ export default function MomentsPage() {
           />
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {group.items.map((m) => (
+            {group.items.map((moment) => (
               <figure
-                key={m.caption}
+                key={moment.caption}
                 className={
-                  m.featured
+                  moment.featured
                     ? 'card-hairline group relative overflow-hidden sm:col-span-2'
                     : 'card-hairline group relative overflow-hidden'
                 }
               >
                 <div className="relative flex aspect-[4/3] items-end overflow-hidden bg-gradient-to-br from-brand-100 to-brand-200">
-                  {m.src ? (
+                  {moment.src ? (
                     <Image
-                      src={m.src}
-                      alt={m.caption}
+                      src={moment.src}
+                      alt={moment.caption}
                       fill
                       className="object-cover transition duration-500 group-hover:scale-105"
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
@@ -79,12 +79,12 @@ export default function MomentsPage() {
                   )}
 
                   <span className="absolute right-3 top-3 rounded bg-brand-900/85 px-2 py-1 text-[10px] font-semibold text-white">
-                    {m.year}
+                    {moment.year}
                   </span>
                 </div>
 
                 <figcaption className="p-5">
-                  <p className="text-sm leading-relaxed text-foreground/75">{m.caption}</p>
+                  <p className="text-sm leading-relaxed text-foreground/75">{moment.caption}</p>
                 </figcaption>
               </figure>
             ))}

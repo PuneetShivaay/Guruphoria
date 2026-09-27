@@ -130,7 +130,7 @@ export default async function ProgramDetailPage({ params }: Params) {
                           {m.name}
                         </span>
                         <span className="block truncate text-xs text-foreground/50">
-                          {m.role}
+                          {m.upcoming ? 'Sessions coming soon' : m.role}
                         </span>
                       </span>
                     </li>

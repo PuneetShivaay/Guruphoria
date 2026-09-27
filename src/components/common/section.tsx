@@ -5,13 +5,15 @@ import { cn } from '@/lib/utils';
  * Every homepage section should use this rather than ad-hoc padding.
  * ------------------------------------------------------------------ */
 
-type Tone = 'white' | 'surface' | 'deep' | 'brand';
+type Tone = 'white' | 'surface' | 'deep' | 'brand' | 'brandLight';
 
 const toneClass: Record<Tone, string> = {
   white: 'bg-white text-foreground',
   surface: 'bg-surface text-foreground border-y border-brand-700/10',
   deep: 'bg-brand-900 text-white',
   brand: 'bg-brand-700 text-white',
+  /** One step lighter than rand, so adjacent brand surfaces stay distinct. */
+  brandLight: 'bg-brand-600 text-white',
 };
 
 export function Section({

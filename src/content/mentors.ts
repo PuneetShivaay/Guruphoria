@@ -17,56 +17,75 @@ export interface Mentor {
   languages: Language[];
   teaches: string[];
   linkedin?: string;
+  /**
+   * Announced faculty whose first lecture is not published yet. The UI must
+   * label these, so nobody clicks through expecting sessions that do not exist.
+   */
+  upcoming?: boolean;
   /** Marks an empty "we are hiring" slot. */
   placeholder?: boolean;
 }
 
 export const mentors: Mentor[] = [
   {
-    slug: 'puneet-shivaay',
-    name: 'Puneet Shivaay',
+    slug: 'puneet-kumar',
+    name: 'Puneet Kumar',
     role: 'Founder · Web, Python & AI',
     photo: '',
     bio: 'Started Guruphoria in a Gomti Nagar classroom in 2020. Teaches web development, Python and the new AI track.',
     languages: ['English'],
     teaches: ['web-development', 'data-and-python', 'ai-and-emerging-tech'],
-    linkedin: '',
+    linkedin: 'https://www.linkedin.com/in/puneetshivaay',
   },
   {
     slug: 'shekhar-sharma',
     name: 'Shekhar Sharma',
-    role: 'Mentor · Data & Programming',
+    role: 'Co-Founder · Data & Programming',
     photo: '',
     bio: 'Teaches data handling and programming fundamentals in Hinglish.',
     languages: ['Hinglish'],
-    teaches: ['data-and-python'],
+    teaches: ['Data-and-Python'],
   },
   {
-    slug: 'mentor-three',
-    name: 'Mentor Name',
-    role: 'Mentor · Communication',
+    slug: 'ratnesh-kumar',
+    name: 'Ratnesh Kumar',
+    role: 'Mentor · AI & ML',
     photo: '',
-    bio: 'Placeholder — replace with real mentor details.',
+    // TODO(puneet): photo -> /public/mentors/ratnesh-kumar.jpg, plus languages and LinkedIn.
+    bio: 'AI/ML engineer. Joins the AI & Emerging Tech Lab as we build it out; first sessions are in production.',
+    languages: ["English"],
+    teaches: ['AI-and-Emerging-Tech'],
+    upcoming: true,
+  },
+  {
+    slug: 'dheeraj-kumar',
+    name: 'Dheeraj Kumar',
+    role: 'Mentor · Blockchain',
+    photo: '',
+    // TODO(puneet): photo -> /public/mentors/dheeraj-kumar.jpg, plus languages and LinkedIn.
+    bio: 'Blockchain developer. Brings decentralised tech into the AI & Emerging Tech Lab; first sessions are in production.',
+    languages: ["Hinglish"],
+    teaches: ['Blockchain-and-Emerging-Tech'],
+    upcoming: true,
+  },
+  {
+    slug: 'ritu-chaudhary',
+    name: 'Ritu Chaudhary',
+    role: 'Mentor · QA Testing',
+    photo: '',
+    bio: 'QA Testing expert. Guides students through testing methodologies and best practices.',
     languages: ['Hinglish'],
-    teaches: ['communication-and-personality'],
+    teaches: ['QA-Testing'],
+    upcoming: true,
   },
   {
-    slug: 'mentor-four',
-    name: 'Mentor Name',
-    role: 'Mentor · Personality Development',
+    slug: 'ghanist-baghel',
+    name: 'Ghanist Baghel',
+    role: 'Mentor · Marketing',
     photo: '',
-    bio: 'Placeholder — replace with real mentor details.',
-    languages: ['Hinglish'],
-    teaches: ['communication-and-personality'],
-  },
-  {
-    slug: 'mentor-five',
-    name: 'Mentor Name',
-    role: 'Mentor · Frontend',
-    photo: '',
-    bio: 'Placeholder — replace with real mentor details.',
+    bio: 'Marketing specialist. Helps students understand market trends and strategies.',
     languages: ['English'],
-    teaches: ['web-development'],
+    teaches: ['Marketing'],
   },
   {
     slug: 'joining-soon',

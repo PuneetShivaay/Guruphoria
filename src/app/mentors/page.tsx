@@ -55,6 +55,11 @@ export default function MentorsPage() {
                     {m.name}
                   </h2>
                   <p className="truncate text-sm text-foreground/55">{m.role}</p>
+                  {m.upcoming && (
+                    <p className="mt-1 text-[10px] font-semibold uppercase tracking-label text-brand-500">
+                      Sessions coming soon
+                    </p>
+                  )}
                 </div>
               </div>
 

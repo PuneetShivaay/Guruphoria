@@ -20,7 +20,7 @@
     --brand-600: 203 92% 36%;    /* #0776b0                           */
     --brand-700: 210 85% 33%;    /* #0d539b  PRIMARY — brand surface  */
     --brand-800: 210 85% 26%;    /* #0a417a                           */
-    --brand-900: 210 85% 20%;    /* #08325e  deepest logo blue        */
+    --brand-900: 210 85% 33%;    /* #0d539b  logo blue - deep surfaces */
 
     /* ---- Semantic tokens ----------------------------------------- */
     --background: 0 0% 100%;

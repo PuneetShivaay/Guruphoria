@@ -75,6 +75,13 @@ export default function StoryPage() {
               Photographs from the Gomti Nagar institute — classroom, whiteboard sessions,
               and Teachers&apos; Day celebrations.
             </p>
+            <Link
+              href="/moments"
+              className="col-span-2 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-300 transition hover:text-white"
+            >
+              See all moments
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </div>
       </Section>
@@ -150,14 +157,14 @@ export default function StoryPage() {
         <div className="mt-12 flex flex-wrap items-center gap-3">
           <Link
             href="/programs"
-            className="group inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white shadow-cta transition hover:bg-brand-500"
+            className="group inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-brand-500"
           >
             See what we teach
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full border border-brand-700/20 bg-white px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
           >
             Get in touch
           </Link>

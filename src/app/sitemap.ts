@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/live', priority: 0.9 },
     { path: '/mentors', priority: 0.8 },
     { path: '/story', priority: 0.8 },
+    { path: '/moments', priority: 0.5 },
     { path: '/contact', priority: 0.6 },
   ];
 

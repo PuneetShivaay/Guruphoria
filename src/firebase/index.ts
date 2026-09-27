@@ -9,7 +9,32 @@ import { getFirestore } from 'firebase/firestore';
  * Robust implementation for both Client and Server environments.
  */
 
+/**
+ * Node 22+ exposes an experimental global `localStorage` that is non-functional
+ * unless `--localstorage-file` is given a valid path. Firebase Auth sniffs for
+ * `localStorage` to detect a browser, so during SSR it picks up this broken
+ * global and throws "localStorage.getItem is not a function". Remove it.
+ */
+function removeBrokenNodeLocalStorage() {
+  if (typeof window !== 'undefined') return;
+  try {
+    const ls = (globalThis as any).localStorage;
+    if (ls && typeof ls.getItem !== 'function') {
+      delete (globalThis as any).localStorage;
+    }
+  } catch {
+    // Accessing/deleting may throw in some Node builds - safe to ignore.
+    try {
+      Object.defineProperty(globalThis, 'localStorage', { value: undefined, configurable: true });
+    } catch {
+      /* noop */
+    }
+  }
+}
+
 export function initializeFirebase() {
+  removeBrokenNodeLocalStorage();
+
   let app: FirebaseApp;
   
   const apps = getApps();

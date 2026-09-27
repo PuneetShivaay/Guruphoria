@@ -15,6 +15,26 @@ export default {
         code: ['monospace'],
       },
       colors: {
+        brand: {
+          50: 'hsl(var(--brand-50))',
+          100: 'hsl(var(--brand-100))',
+          200: 'hsl(var(--brand-200))',
+          300: 'hsl(var(--brand-300))',
+          400: 'hsl(var(--brand-400))',
+          500: 'hsl(var(--brand-500))',
+          600: 'hsl(var(--brand-600))',
+          700: 'hsl(var(--brand-700))',
+          800: 'hsl(var(--brand-800))',
+          900: 'hsl(var(--brand-900))',
+        },
+        surface: {
+          DEFAULT: 'hsl(var(--surface))',
+          foreground: 'hsl(var(--surface-foreground))',
+        },
+        live: {
+          DEFAULT: 'hsl(var(--live))',
+          foreground: 'hsl(var(--live-foreground))',
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -71,6 +91,19 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      boxShadow: {
+        // Single elevation system — nothing else should be used.
+        hairline: '0 2px 12px -4px hsl(var(--brand-700) / 0.20)',
+        elevated: '0 8px 40px -12px hsl(var(--brand-700) / 0.18)',
+        lifted: '0 24px 70px -30px hsl(var(--brand-700) / 0.45)',
+        cta: '0 8px 24px -8px hsl(var(--brand-700) / 0.60)',
+      },
+      letterSpacing: {
+        label: '0.2em',
+      },
+      maxWidth: {
+        content: '72rem',
+      },
       keyframes: {
         'accordion-down': {
           from: {
@@ -88,10 +121,15 @@ export default {
             height: '0',
           },
         },
+        reveal: {
+          from: { opacity: '0', transform: 'translateY(14px)' },
+          to: { opacity: '1', transform: 'none' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        reveal: 'reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both',
       },
     },
   },

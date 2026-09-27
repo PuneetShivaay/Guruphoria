@@ -1,111 +1,74 @@
-# Guruphoria
+﻿# Guruphoria
 
-Guruphoria is a premium learning platform and portfolio for AI Engineering, LLMs, Agentic AI, React, Next.js, and modern Software Development. This project serves as the front-end application for the Guruphoria website, built for engineers, by engineers.
+**Build Your Essence.**
+
+Guruphoria is a free, live-taught learning institute founded in 2020 in Gomti
+Nagar, Lucknow. This repository is the marketing and program site for the
+2026 relaunch -- technology, communication and personality, taught by real
+mentors in English and Hinglish.
+
+> Documentation lives in `docs/README.md`. Start there for architecture,
+> brand strategy and the current progress log. This file is a quick
+> orientation for running the project locally.
+
+## Tech stack
+
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + shadcn/ui
+- **Backend:** Firebase (client SDK only -- no authenticated surface today)
+- **Content:** Plain TypeScript files under `src/content/`, not a CMS
 
 ## Features
 
-- **Engineering Blog:** Integrates with Medium to display the latest technical articles.
-- **Open Source Showcase:** Fetches and displays featured open-source projects from GitHub.
-- **Dynamic Content:** Fetches content from various external APIs, including YouTube, Medium, and GitHub.
-- **Resource Hub:** A curated list of resources, including AI prompts and useful links.
-- **Responsive Design:** Modern, responsive UI built with Tailwind CSS and Shadcn/UI.
+- **Dark mode** -- light, dark and system, no flash on load, toggled from the header
+- **Programs** -- four curricula (`/programs`), each with a full syllabus page
+- **Mentors** -- real faculty with subjects that link to the program they teach
+- **Live & Archive** -- the current class plus the 2020-21 video library (`/live`)
+- **Moments** -- photographs from the offline Lucknow institute (`/moments`)
+- **Our Story** -- the 2020 to 2026 timeline (`/story`)
 
-## Tech Stack
-
-- **Framework:** [Next.js](https://nextjs.org/)
-- **UI Library:** [React](https://react.dev/)
-- **Language:** [TypeScript](https://www.typescriptlang.org/)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components:** [Shadcn/UI](https://ui.shadcn.com/)
-- **Backend Services:** [Firebase](https://firebase.google.com/)
-- **Content Sources:** GitHub API, Medium API
-
-## Project Structure
-
-The project uses a standard Next.js App Router structure.
+## Project structure
 
 ```
-.
-├── src/
-│   ├── app/              # Application routes, pages, and layouts
-│   ├── components/       # Shared and reusable React components
-│   │   ├── layout/       # Header, Footer, etc.
-│   │   ├── sections/     # Homepage-specific section components
-│   │   └── ui/           # Core UI components from Shadcn/UI
-│   ├── lib/              # Utility functions, API helpers, and types
-│   ├── firebase/         # Firebase client configuration
-│   └── ...
-├── public/               # Static assets (images, fonts)
-└── ...
+src/
+├── app/            # Routes -- pages compose sections and content, little else
+├── components/
+│   ├── common/     # Section, PageHero and other cross-page primitives
+│   ├── layout/     # Header, Footer, theme toggle
+│   ├── sections/   # Homepage-specific sections
+│   ├── providers/  # ThemeProvider, Firebase error listener
+│   └── ui/         # shadcn/ui primitives
+├── content/        # Editorial source of truth -- programs, mentors, site facts
+├── firebase/       # Firebase client configuration
+└── lib/            # Utilities and shared types
 ```
 
-## Getting Started
+## Getting started
 
-To get the project up and running on your local machine, follow these steps.
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/guruphoria.git
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-3.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Build
-
-To create a production-ready build of the application, run:
+> **Use Node 20 or 22 LTS.** Node 25 is unsupported -- see `docs/ARCHITECTURE.md` section 7.
 
 ```bash
-npm run build
+git clone https://github.com/PuneetShivaay/Guruphoria.git
+cd Guruphoria
+npm install
+npm run dev          # http://localhost:9002
 ```
 
-## Deployment
-
-This Next.js application can be easily deployed to any platform that supports Node.js, including:
-
-- Vercel
-- Netlify
-- Firebase Hosting
-
-## Screenshots
-
-*(Placeholder for project screenshots)*
-
-![Homepage Screenshot](https://via.placeholder.com/800x450.png?text=Homepage)
-_Homepage_
-
-![Projects Page Screenshot](https://via.placeholder.com/800x450.png?text=Projects+Page)
-_Projects Page_
-
-## Roadmap
-
-Future improvements and planned features include:
-
-- [ ] Advanced project search and filtering
-- [ ] AI-powered content recommendations
-- [ ] User authentication and personalized profiles
-- [ ] Structured, course-based learning paths
-- [ ] Course completion tracking and certifications
+```bash
+npm run build        # production build
+npm run typecheck    # tsc --noEmit
+npm run lint
+```
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions for improvements, please open an issue or submit a pull request.
-
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+Content edits (mentors, programs, testimonials) live entirely in
+`src/content/*.ts` -- no component changes needed for most updates. See
+`docs/CONTRIBUTING.md` before opening a PR; the one rule that matters is
+**every claim on the site must be verifiable.**
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for more information.
+No license file is currently included in this repository. Treat the code as
+all-rights-reserved unless a `LICENSE` file is added.

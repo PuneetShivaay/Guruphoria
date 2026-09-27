@@ -5,3 +5,68 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# ---------------------------------------------------------------------------
+# 301 redirects — 2026 relaunch
+#
+# These routes existed on the previous site, are in Google's index, and have
+# inbound links. They were removed in the relaunch (see
+# docs/design/04-information-architecture.md). Permanent redirects preserve
+# the SEO equity and avoid dead links.
+#
+# Order matters: more specific rules must come before their parents.
+# ---------------------------------------------------------------------------
+
+# Founder-centric about page → the institutional story
+[[redirects]]
+  from = "/about"
+  to = "/story"
+  status = 301
+  force = true
+
+# Firestore-backed course CRUD → the real curricula
+[[redirects]]
+  from = "/courses/view"
+  to = "/programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/courses/*"
+  to = "/programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/courses"
+  to = "/programs"
+  status = 301
+  force = true
+
+# Topic tiles for technologies we do not teach → the four programs
+[[redirects]]
+  from = "/explore"
+  to = "/programs"
+  status = 301
+  force = true
+
+# Empty promises (cheat sheets, AI prompts) → the programs that exist
+[[redirects]]
+  from = "/resources"
+  to = "/programs"
+  status = 301
+  force = true
+
+# Founder's GitHub repos — portfolio signal, no replacement
+[[redirects]]
+  from = "/projects"
+  to = "/"
+  status = 301
+  force = true
+
+# No authenticated surface in a free, open model
+[[redirects]]
+  from = "/login"
+  to = "/"
+  status = 301
+  force = true

@@ -75,14 +75,14 @@ export default function LivePage() {
                 href={site.social.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white shadow-cta transition hover:bg-brand-500"
+                className="inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-brand-500"
               >
                 <Play className="h-4 w-4 fill-current" />
                 Watch now
               </Link>
               <Link
                 href={`/programs/${latest.program}`}
-                className="inline-flex items-center gap-2 rounded-full border border-brand-700/20 bg-white px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
               >
                 See the full program
               </Link>
@@ -115,7 +115,7 @@ export default function LivePage() {
               <Link
                 key={p.slug}
                 href={`/programs/${p.slug}`}
-                className="group inline-flex items-center gap-2.5 rounded-full border border-brand-700/15 bg-white px-5 py-2.5 text-sm font-medium text-foreground/75 transition hover:border-brand-500 hover:bg-brand-50 hover:text-brand-700"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground/75 transition hover:border-brand-500 hover:bg-brand-50 hover:text-brand-700"
               >
                 {p.title}
                 <span className="text-xs text-foreground/40 group-hover:text-brand-500">
@@ -154,7 +154,7 @@ export default function LivePage() {
           />
           <button
             type="submit"
-            className="rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:bg-white/90"
+            className="rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-brand-900 transition hover:bg-white/90"
           >
             Notify me
           </button>

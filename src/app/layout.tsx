@@ -4,6 +4,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
+import { ThemeProvider, themeInitScript } from '@/components/providers/theme-provider';
 import { site } from '@/content/site';
 
 export const metadata: Metadata = {
@@ -25,8 +26,8 @@ export const metadata: Metadata = {
     'AI agents tutorial',
   ],
   icons: {
-    icon: '/logo.jpg',
-    apple: '/logo.jpg',
+    icon: '/logo.png',
+    apple: '/logo.png',
   },
   authors: [{ name: 'Puneet Shivaay' }],
   publisher: site.legalName,
@@ -71,7 +72,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0d539b',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#0d539b' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a131d' },
+  ],
   width: 'device-width',
   initialScale: 1,
 };
@@ -82,8 +86,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <head>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      {/* suppressHydrationWarning: browser extensions (component locators,
+          dark-mode add-ons) inject attributes here before React hydrates.
+          The flag only applies one level deep, so it is needed on both
+          <html> and <head>. */}
+      <head suppressHydrationWarning>
+        {/* Applies the stored theme before first paint — prevents a flash. */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -96,7 +106,7 @@ export default function RootLayout({
               name: site.name,
               alternateName: site.legalName,
               url: site.url,
-              logo: `${site.url}/logo.jpg`,
+              logo: `${site.url}/logo.png`,
               slogan: site.tagline,
               description: site.description,
               foundingDate: String(site.foundedYear),
@@ -130,14 +140,16 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased selection:bg-brand-500 selection:text-white">
-        <FirebaseClientProvider>
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
-          <Toaster />
-        </FirebaseClientProvider>
+        <ThemeProvider defaultTheme="system">
+          <FirebaseClientProvider>
+            <div className="flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+            <Toaster />
+          </FirebaseClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

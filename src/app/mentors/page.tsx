@@ -129,7 +129,7 @@ export default function MentorsPage() {
 
           <Link
             href="/contact"
-            className="group inline-flex shrink-0 items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white shadow-cta transition hover:bg-brand-500"
+            className="group inline-flex shrink-0 items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-brand-500"
           >
             Get in touch
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

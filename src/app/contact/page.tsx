@@ -55,7 +55,7 @@ export default function ContactPage() {
 
             <ul className="mt-10 space-y-px overflow-hidden rounded-2xl border border-brand-700/12 bg-brand-700/12">
               {reasons.map((r, i) => (
-                <li key={r.title} className="flex items-baseline gap-5 bg-white px-6 py-5">
+                <li key={r.title} className="flex items-baseline gap-5 bg-card px-6 py-5">
                   <span className="w-7 shrink-0 font-mono text-sm text-brand-500">
                     {String(i + 1).padStart(2, '0')}
                   </span>
@@ -78,7 +78,7 @@ export default function ContactPage() {
               </p>
               <a
                 href={`mailto:${site.contact.email}`}
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white shadow-cta transition hover:bg-brand-500"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-brand-500"
               >
                 <Mail className="h-4 w-4" />
                 {site.contact.email}

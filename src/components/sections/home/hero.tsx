@@ -16,7 +16,7 @@ import { site, stats } from '@/content/site';
  */
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section className="relative overflow-hidden bg-background">
       <div className="pointer-events-none absolute inset-0 bg-brand-wash" aria-hidden />
       <div className="pointer-events-none absolute inset-0 bg-grid" aria-hidden />
 
@@ -24,7 +24,7 @@ export function Hero() {
         <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
           {/* ---------------- copy ---------------- */}
           <div className="animate-reveal">
-            <p className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-brand-700/15 bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700/70 shadow-hairline">
+            <p className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-card px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700/70 shadow-hairline">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live opacity-75" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-live" />
@@ -49,7 +49,7 @@ export function Hero() {
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <Link
                 href="/live"
-                className="inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white shadow-cta transition hover:bg-brand-500"
+                className="inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-brand-500"
               >
                 <Play className="h-4 w-4 fill-current" />
                 Watch Latest Class
@@ -58,7 +58,7 @@ export function Hero() {
                 href={site.social.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-brand-700/20 bg-white px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
               >
                 <Youtube className="h-4 w-4" />
                 Subscribe — Free
@@ -70,7 +70,7 @@ export function Hero() {
           <div className="relative animate-reveal [animation-delay:120ms]">
             <Link
               href="/live"
-              className="block overflow-hidden rounded-2xl border border-brand-700/12 bg-white shadow-lifted transition hover:border-brand-500/50"
+              className="block overflow-hidden rounded-2xl border border-border bg-card shadow-lifted transition hover:border-brand-500/50"
             >
               <div className="relative flex aspect-video items-end bg-gradient-to-br from-brand-100 to-brand-200 p-4">
                 <span className="absolute left-4 top-4 rounded bg-live px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-live-foreground">
@@ -96,7 +96,7 @@ export function Hero() {
             </Link>
 
             {/* third-party proof, above the fold */}
-            <div className="absolute -bottom-5 -left-5 hidden rounded-xl border border-brand-700/12 bg-white px-5 py-3 shadow-elevated sm:block">
+            <div className="absolute -bottom-5 -left-5 hidden rounded-xl border border-border bg-card px-5 py-3 shadow-elevated sm:block">
               <p className="font-headline text-lg font-bold text-brand-700">
                 {site.ratings[0].score} ★
               </p>

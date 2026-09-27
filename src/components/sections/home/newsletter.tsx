@@ -26,11 +26,11 @@ export function Newsletter() {
           type="email"
           required
           placeholder="you@email.com"
-          className="flex-1 rounded-full border border-brand-700/15 bg-white px-5 py-3.5 text-sm text-foreground outline-none transition placeholder:text-foreground/35 focus:border-brand-500"
+          className="flex-1 rounded-full border border-border bg-card px-5 py-3.5 text-sm text-foreground outline-none transition placeholder:text-foreground/35 focus:border-brand-500"
         />
         <button
           type="submit"
-          className="rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-brand-800"
+          className="rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-primary-foreground transition hover:bg-brand-500"
         >
           Notify me
         </button>

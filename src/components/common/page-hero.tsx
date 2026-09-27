@@ -23,7 +23,7 @@ export function PageHero({
   className?: string;
 }) {
   return (
-    <section className={cn('relative overflow-hidden bg-white', className)}>
+    <section className={cn('relative overflow-hidden bg-background', className)}>
       <div className="pointer-events-none absolute inset-0 bg-brand-wash" aria-hidden />
       <div className="pointer-events-none absolute inset-0 bg-grid" aria-hidden />
 

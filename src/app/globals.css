@@ -58,6 +58,62 @@
     --ring: 199 98% 43%;
 
     --radius: 0.875rem;
+
+    color-scheme: light;
+  }
+
+  /* ---- Dark theme ------------------------------------------------
+     The scale is NOT blindly inverted. 50–200 become dark tints (they
+     are only ever used as subtle backgrounds), 300–600 stay bright
+     (accents), 700 becomes a legible light blue (used as brand *ink*
+     and as button fill), while 800/900 stay deep navy because they are
+     this project's "deep surface" colours in both themes.           */
+  .dark {
+    --brand-50:  210 45% 12%;    /* subtle wash / hover                */
+    --brand-100: 210 42% 17%;
+    --brand-200: 208 40% 24%;
+    --brand-300: 200 60% 45%;
+    --brand-400: 199 80% 52%;
+    --brand-500: 199 92% 56%;    /* ACCENT — interactive               */
+    --brand-600: 200 88% 64%;
+    --brand-700: 199 90% 68%;    /* brand ink / primary button fill    */
+    --brand-800: 210 60% 14%;    /* deep surface, a step up from 900   */
+    --brand-900: 210 55% 10%;    /* DEEP SURFACE — footer, story       */
+
+    --background: 210 45% 7%;         /* #0a131d                     */
+    --foreground: 205 30% 94%;
+
+    --surface: 210 42% 10%;
+    --surface-foreground: 205 30% 94%;
+
+    --card: 210 40% 11%;
+    --card-foreground: 205 30% 94%;
+    --popover: 210 42% 10%;
+    --popover-foreground: 205 30% 94%;
+
+    --primary: 199 90% 68%;
+    --primary-foreground: 210 60% 8%; /* dark ink on light-blue fill  */
+
+    --accent: 199 92% 56%;
+    --accent-foreground: 210 60% 8%;
+
+    --secondary: 210 40% 16%;
+    --secondary-foreground: 199 90% 68%;
+
+    --muted: 210 38% 15%;
+    --muted-foreground: 206 18% 68%;
+
+    --live: 152 55% 48%;
+    --live-foreground: 210 60% 8%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 32% 20%;
+    --input: 210 32% 20%;
+    --ring: 199 92% 56%;
+
+    color-scheme: dark;
   }
 
   /* ---- Inverted surfaces (deep blue story/footer) ----------------
@@ -71,6 +127,17 @@
     --primary-foreground: 0 0% 100%;
     --muted-foreground: 205 40% 78%;
     --border: 210 60% 32%;
+  }
+
+  /* In dark mode the deep band should recede, not glow brighter than
+     the page around it. */
+  .dark .on-deep {
+    --background: 210 55% 10%;
+    --card: 210 45% 14%;
+    --primary: 199 92% 56%;
+    --primary-foreground: 210 60% 8%;
+    --muted-foreground: 205 22% 70%;
+    --border: 210 35% 22%;
   }
 }
 
@@ -97,6 +164,10 @@
     background-color: hsl(var(--brand-500));
     color: #fff;
   }
+
+  .dark ::selection {
+    color: hsl(210 60% 8%);
+  }
 }
 
 @layer components {
@@ -108,13 +179,22 @@
 
   /* Hairline card — the single elevation system */
   .card-hairline {
-    @apply rounded-2xl bg-white transition duration-300;
+    @apply rounded-2xl bg-card transition duration-300;
     border: 1px solid hsl(var(--brand-700) / 0.12);
   }
 
   .card-hairline:hover {
     border-color: hsl(var(--brand-500) / 0.5);
     box-shadow: 0 8px 40px -12px hsl(var(--brand-700) / 0.18);
+  }
+
+  /* Borders need more presence against a dark card than a white one. */
+  .dark .card-hairline {
+    border-color: hsl(var(--border));
+  }
+
+  .dark .card-hairline:hover {
+    box-shadow: 0 8px 40px -12px hsl(210 60% 2% / 0.7);
   }
 
   /* The one gradient we allow, on a single word in the hero */

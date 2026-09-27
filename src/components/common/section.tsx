@@ -8,12 +8,14 @@ import { cn } from '@/lib/utils';
 type Tone = 'white' | 'surface' | 'deep' | 'brand' | 'brandLight';
 
 const toneClass: Record<Tone, string> = {
-  white: 'bg-white text-foreground',
-  surface: 'bg-surface text-foreground border-y border-brand-700/10',
+  white: 'bg-background text-foreground',
+  surface: 'bg-surface text-foreground border-y border-border',
   deep: 'bg-brand-900 text-white',
-  brand: 'bg-brand-700 text-white',
-  /** One step lighter than rand, so adjacent brand surfaces stay distinct. */
-  brandLight: 'bg-brand-600 text-white',
+  // In dark mode brand-600/700 are light blues (they read as ink, not as a
+  // surface), so the saturated brand bands fall back to the deep navies.
+  brand: 'bg-brand-700 text-white dark:bg-brand-900',
+  /** One step lighter than brand, so adjacent brand surfaces stay distinct. */
+  brandLight: 'bg-brand-600 text-white dark:bg-brand-800',
 };
 
 export function Section({
@@ -153,12 +155,12 @@ export function StatStrip({
     <dl
       className={cn(
         'grid grid-cols-2 gap-px overflow-hidden rounded-2xl border md:grid-cols-4',
-        onDeep ? 'border-white/15 bg-white/15' : 'border-brand-700/12 bg-brand-700/12',
+        onDeep ? 'border-white/15 bg-white/15' : 'border-border bg-brand-700/12',
         className,
       )}
     >
       {items.map((s) => (
-        <div key={s.label} className={cn('px-6 py-7', onDeep ? 'bg-brand-900' : 'bg-white')}>
+        <div key={s.label} className={cn('px-6 py-7', onDeep ? 'bg-brand-900' : 'bg-card')}>
           <dt className="sr-only">{s.label}</dt>
           <dd>
             <span
@@ -209,7 +211,7 @@ export function RatingBadge({
   );
 
   const classes =
-    'block rounded-xl border border-brand-700/12 bg-white px-5 py-3 transition hover:border-brand-500/50';
+    'block rounded-xl border border-border bg-card px-5 py-3 transition hover:border-brand-500/50';
 
   return href ? (
     <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>

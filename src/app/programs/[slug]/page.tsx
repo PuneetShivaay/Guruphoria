@@ -60,14 +60,14 @@ export default async function ProgramDetailPage({ params }: Params) {
             href={site.social.youtube}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-white shadow-cta transition hover:bg-brand-500"
+            className="inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-brand-500"
           >
             <Play className="h-4 w-4 fill-current" />
             Start lesson one
           </Link>
           <Link
             href="/programs"
-            className="inline-flex items-center gap-2 rounded-full border border-brand-700/20 bg-white px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
           >
             <ArrowLeft className="h-4 w-4" />
             All programs
@@ -89,7 +89,7 @@ export default async function ProgramDetailPage({ params }: Params) {
               {program.modules.map((m, i) => (
                 <li
                   key={m.title}
-                  className="flex items-baseline gap-5 bg-white px-6 py-5 transition hover:bg-brand-50"
+                  className="flex items-baseline gap-5 bg-card px-6 py-5 transition hover:bg-brand-50"
                 >
                   <span className="w-7 shrink-0 font-mono text-sm text-brand-500">
                     {String(i + 1).padStart(2, '0')}

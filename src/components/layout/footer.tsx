@@ -4,7 +4,10 @@ import { Github, Linkedin, Mail, MapPin, Newspaper, Youtube } from 'lucide-react
 import { site } from '@/content/site';
 
 /**
- * Footer — the second and last navy surface on the page.
+ * Footer — a light, quiet surface that closes the page.
+ *
+ * Built entirely on semantic tokens, so it reads as near-white in the light
+ * theme and as deep navy in the dark theme without any per-theme overrides.
  *
  * The Lucknow address is the point: a physical address is a trust signal a
  * portfolio site cannot fake, and it backs up the Google listing.
@@ -25,7 +28,8 @@ const columns = [
     links: [
       { label: 'Mentors', href: '/mentors' },
       { label: 'Our Story', href: '/story' },
-      { label: 'Archive', href: '/archive' },
+      { label: 'Moments', href: '/moments' },
+      { label: 'Archive', href: '/live' },
       { label: 'Contact', href: '/contact' },
     ],
   },
@@ -40,29 +44,31 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="bg-brand-900 text-white">
+    <footer className="border-t border-border bg-surface text-foreground">
       <div className="mx-auto max-w-content px-6 py-16">
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           {/* ---- brand + address ---- */}
           <div>
             <div className="flex items-center gap-2.5">
               <Image
-                src="/logo.jpg"
+                src="/logo.png"
                 alt=""
                 width={36}
                 height={36}
                 className="h-9 w-9 rounded-lg object-contain"
               />
-              <span className="font-headline text-xl font-bold">{site.name}</span>
+              <span className="font-headline text-xl font-bold text-brand-700">
+                {site.name}
+              </span>
             </div>
 
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/50">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-foreground/65">
               {site.tagline}. Technology, communication and personality — taught live,
               free, since {site.foundedYear}.
             </p>
 
             <address className="mt-6 space-y-2.5 not-italic">
-              <span className="flex items-start gap-2.5 text-xs leading-relaxed text-white/40">
+              <span className="flex items-start gap-2.5 text-xs leading-relaxed text-foreground/60">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                 <span>
                   {site.address.street}
@@ -72,7 +78,7 @@ export function Footer() {
               </span>
               <a
                 href={`mailto:${site.contact.email}`}
-                className="flex items-center gap-2.5 text-xs text-white/40 transition hover:text-white"
+                className="flex items-center gap-2.5 text-xs text-foreground/60 transition hover:text-brand-700"
               >
                 <Mail className="h-3.5 w-3.5 shrink-0" />
                 {site.contact.email}
@@ -87,7 +93,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="grid h-9 w-9 place-items-center rounded-full border border-white/12 text-white/60 transition hover:border-brand-500 hover:bg-brand-500/10 hover:text-white"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-border bg-card text-foreground/60 transition hover:border-brand-500 hover:bg-brand-50 hover:text-brand-700"
                 >
                   <Icon className="h-4 w-4" />
                 </Link>
@@ -98,7 +104,7 @@ export function Footer() {
           {/* ---- link columns ---- */}
           {columns.map((col) => (
             <nav key={col.title} aria-label={col.title}>
-              <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/40">
+              <h2 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/45">
                 {col.title}
               </h2>
               <ul className="mt-4 space-y-2.5">
@@ -106,7 +112,7 @@ export function Footer() {
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="text-sm text-white/70 transition hover:text-white"
+                      className="text-sm text-foreground/70 transition hover:text-brand-700"
                     >
                       {l.label}
                     </Link>
@@ -117,10 +123,23 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-7 text-[11px] uppercase tracking-[0.14em] text-white/35">
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-border pt-7 text-[11px] uppercase tracking-[0.14em] text-foreground/50">
           <span>
             © {new Date().getFullYear()} {site.name} · {site.address.city}, India
           </span>
+
+          <span className="text-foreground/40">
+            Designed &amp; developed by{' '}
+            <a
+              href="https://otical.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-foreground/60 underline-offset-4 transition hover:text-brand-500 hover:underline"
+            >
+              Otical
+            </a>
+          </span>
+
           <span>Free for everyone, always</span>
         </div>
       </div>

@@ -11,6 +11,19 @@
 export type Language = 'English' | 'Hinglish';
 export type ProgramStatus = 'established' | 'growing';
 
+/**
+ * The four programs, as a closed set.
+ *
+ * Anything that *links* to a program must be typed as `ProgramSlug` so a
+ * typo or a display label used in place of a slug fails the build rather
+ * than shipping a 404. Add a slug here only when the program exists.
+ */
+export type ProgramSlug =
+  | 'web-development'
+  | 'data-and-python'
+  | 'communication-and-personality'
+  | 'ai-and-emerging-tech';
+
 export interface ProgramModule {
   title: string;
   /** Source playlist on YouTube, for traceability. */
@@ -19,7 +32,7 @@ export interface ProgramModule {
 }
 
 export interface Program {
-  slug: string;
+  slug: ProgramSlug;
   title: string;
   category: 'Career Skills' | 'AI Track';
   status: ProgramStatus;
@@ -109,16 +122,28 @@ export const programs: Program[] = [
 ];
 
 /** The two-door audience split on the homepage. */
-export const audiences = [
+export interface Audience {
+  id: 'student' | 'professional';
+  title: string;
+  blurb: string;
+  /**
+   * Programs to recommend, as slugs — these build `/programs/<slug>` links.
+   * Typed as `ProgramSlug` so an invalid value fails the build rather than
+   * rendering a dead link.
+   */
+  programs: ProgramSlug[];
+}
+
+export const audiences: Audience[] = [
   {
-    id: 'student' as const,
+    id: 'student',
     title: "I'm a student",
     blurb:
       'Get placement-ready: real projects, English communication, and the confidence to interview well.',
     programs: ['web-development', 'communication-and-personality', 'data-and-python'],
   },
   {
-    id: 'professional' as const,
+    id: 'professional',
     title: "I'm working",
     blurb:
       'Upskill around your job: practical web development, Python for data, and a growing AI track.',

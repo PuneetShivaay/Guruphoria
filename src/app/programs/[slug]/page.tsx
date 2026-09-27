@@ -13,12 +13,12 @@ type Params = { params: Promise<{ slug: string }> };
 
 /** Pre-render every program at build time. */
 export function generateStaticParams() {
-  return programs.map((p) => ({ slug: p.slug }));
+  return programs.map((program) => ({ slug: program.slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const program = programs.find((p) => p.slug === slug);
+  const program = programs.find((candidate) => candidate.slug === slug);
   if (!program) return {};
 
   return {
@@ -33,11 +33,15 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function ProgramDetailPage({ params }: Params) {
   const { slug } = await params;
-  const program = programs.find((p) => p.slug === slug);
+  const program = programs.find((candidate) => candidate.slug === slug);
   if (!program) notFound();
 
-  const taughtBy = mentors.filter((m) => !m.placeholder && m.teaches.includes(program.slug));
-  const others = programs.filter((p) => p.slug !== program.slug).slice(0, 2);
+  const taughtBy = mentors.filter(
+    (mentor) =>
+      !mentor.placeholder &&
+      mentor.subjects.some((subject) => subject.programSlug === program.slug),
+  );
+  const others = programs.filter((other) => other.slug !== program.slug).slice(0, 2);
 
   return (
     <>
@@ -48,8 +52,8 @@ export default async function ProgramDetailPage({ params }: Params) {
       >
         <div className="mt-8 flex flex-wrap items-center gap-2">
           {program.status === 'growing' && <Chip tone="live">New · Growing</Chip>}
-          {program.languages.map((l) => (
-            <Chip key={l}>{l}</Chip>
+          {program.languages.map((language) => (
+            <Chip key={language}>{language}</Chip>
           ))}
           <Chip>{program.countLabel}</Chip>
           <Chip tone="live">Free</Chip>
@@ -86,25 +90,25 @@ export default async function ProgramDetailPage({ params }: Params) {
             />
 
             <ol className="mt-10 space-y-px overflow-hidden rounded-2xl border border-brand-700/12 bg-brand-700/12">
-              {program.modules.map((m, i) => (
+              {program.modules.map((module, index) => (
                 <li
-                  key={m.title}
+                  key={module.title}
                   className="flex items-baseline gap-5 bg-card px-6 py-5 transition hover:bg-brand-50"
                 >
                   <span className="w-7 shrink-0 font-mono text-sm text-brand-500">
-                    {String(i + 1).padStart(2, '0')}
+                    {String(index + 1).padStart(2, '0')}
                   </span>
                   <span className="flex-1">
-                    <span className="block font-medium text-foreground/85">{m.title}</span>
-                    {m.source && (
+                    <span className="block font-medium text-foreground/85">{module.title}</span>
+                    {module.source && (
                       <span className="mt-1 block text-xs text-foreground/40">
-                        Playlist: {m.source}
+                        Playlist: {module.source}
                       </span>
                     )}
                   </span>
-                  {m.lessons && (
+                  {module.lessons && (
                     <span className="shrink-0 text-xs font-medium uppercase tracking-wider text-foreground/40">
-                      {m.lessons} lessons
+                      {module.lessons} lessons
                     </span>
                   )}
                 </li>
@@ -120,17 +124,17 @@ export default async function ProgramDetailPage({ params }: Params) {
                   Taught by
                 </h2>
                 <ul className="mt-4 space-y-4">
-                  {taughtBy.map((m) => (
-                    <li key={m.slug} className="flex items-center gap-3">
+                  {taughtBy.map((mentor) => (
+                    <li key={mentor.slug} className="flex items-center gap-3">
                       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-100 font-headline text-xs font-bold text-brand-700">
-                        {initialsOf(m.name)}
+                        {initialsOf(mentor.name)}
                       </span>
                       <span className="min-w-0">
                         <span className="block truncate text-sm font-semibold text-brand-700">
-                          {m.name}
+                          {mentor.name}
                         </span>
                         <span className="block truncate text-xs text-foreground/50">
-                          {m.upcoming ? 'Sessions coming soon' : m.role}
+                          {mentor.upcoming ? 'Sessions coming soon' : mentor.role}
                         </span>
                       </span>
                     </li>
@@ -189,8 +193,8 @@ export default async function ProgramDetailPage({ params }: Params) {
       <Section tone="white">
         <SectionHeading label="Keep going" title="Other programs." />
         <div className="mt-12 grid gap-5 md:grid-cols-2">
-          {others.map((p) => (
-            <ProgramCard key={p.slug} program={p} />
+          {others.map((otherProgram) => (
+            <ProgramCard key={otherProgram.slug} program={otherProgram} />
           ))}
         </div>
       </Section>

@@ -19,10 +19,10 @@ export function Mentors() {
       />
 
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {mentors.map((m) =>
-          m.placeholder ? (
+        {mentors.map((mentor) =>
+          mentor.placeholder ? (
             <Link
-              key={m.slug}
+              key={mentor.slug}
               href="/contact"
               className="group flex min-w-0 items-center gap-4 rounded-2xl border border-dashed border-brand-700/20 p-5 transition hover:border-brand-500/60 hover:bg-brand-50"
             >
@@ -30,8 +30,8 @@ export function Mentors() {
                 <Plus className="h-5 w-5" />
               </span>
               <span className="min-w-0">
-                <span className="block font-semibold text-brand-700">{m.name}</span>
-                <span className="block text-sm text-foreground/55">{m.role}</span>
+                <span className="block font-semibold text-brand-700">{mentor.name}</span>
+                <span className="block text-sm text-foreground/55">{mentor.role}</span>
                 <span className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-brand-500">
                   Teach with us
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
@@ -39,28 +39,31 @@ export function Mentors() {
               </span>
             </Link>
           ) : (
-            <article key={m.slug} className="card-hairline flex min-w-0 items-center gap-4 p-5">
-              {m.photo ? (
+            <article
+              key={mentor.slug}
+              className="card-hairline flex min-w-0 items-center gap-4 p-5"
+            >
+              {mentor.photo ? (
                 <Image
-                  src={m.photo}
-                  alt={m.name}
+                  src={mentor.photo}
+                  alt={mentor.name}
                   width={56}
                   height={56}
                   className="h-14 w-14 shrink-0 rounded-full object-cover"
                 />
               ) : (
                 <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-brand-100 font-headline text-base font-bold text-brand-700">
-                  {initialsOf(m.name)}
+                  {initialsOf(mentor.name)}
                 </span>
               )}
 
               <div className="min-w-0">
-                <h3 className="truncate font-semibold text-brand-700">{m.name}</h3>
-                <p className="truncate text-sm text-foreground/55">{m.role}</p>
-                {m.languages.length > 0 && (
+                <h3 className="truncate font-semibold text-brand-700">{mentor.name}</h3>
+                <p className="truncate text-sm text-foreground/55">{mentor.role}</p>
+                {mentor.languages.length > 0 && (
                   <div className="mt-1.5 flex flex-wrap gap-1.5">
-                    {m.languages.map((l) => (
-                      <Chip key={l}>{l}</Chip>
+                    {mentor.languages.map((language) => (
+                      <Chip key={language}>{language}</Chip>
                     ))}
                   </div>
                 )}

@@ -34,8 +34,8 @@ export default function MentorsPage() {
       <Section tone="surface">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {faculty.map((m) => (
-            <article key={m.slug} className="card-hairline flex flex-col p-7">
-              <div className="flex items-center gap-4">
+            <article key={m.slug} className="card-hairline flex min-w-0 flex-col p-6 sm:p-7">
+              <div className="flex min-w-0 items-center gap-4">
                 {m.photo ? (
                   <Image
                     src={m.photo}

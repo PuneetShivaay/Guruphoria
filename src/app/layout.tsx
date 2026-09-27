@@ -139,7 +139,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-body antialiased selection:bg-brand-500 selection:text-white">
+      <body className="overflow-x-hidden font-body antialiased selection:bg-brand-500 selection:text-white">
         <ThemeProvider defaultTheme="system">
           <FirebaseClientProvider>
             <div className="flex min-h-screen flex-col">

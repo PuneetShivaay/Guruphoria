@@ -20,11 +20,11 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-brand-wash" aria-hidden />
       <div className="pointer-events-none absolute inset-0 bg-grid" aria-hidden />
 
-      <div className="relative mx-auto max-w-content px-6 pb-20 pt-16 md:pb-24 md:pt-24">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="relative mx-auto max-w-content px-5 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16 md:pb-24 md:pt-24">
+        <div className="grid items-center gap-10 sm:gap-14 lg:grid-cols-[1.15fr_0.85fr]">
           {/* ---------------- copy ---------------- */}
           <div className="animate-reveal">
-            <p className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-card px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700/70 shadow-hairline">
+            <p className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-border bg-card px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-brand-700/70 shadow-hairline sm:mb-8 sm:px-4 sm:text-[11px] sm:tracking-[0.18em]">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live opacity-75" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-live" />
@@ -32,12 +32,12 @@ export function Hero() {
               Est. {site.foundedYear} · Lucknow, India
             </p>
 
-            <h1 className="font-headline text-5xl font-bold leading-[1.02] tracking-[-0.03em] md:text-[4.5rem]">
+            <h1 className="font-headline text-[2.5rem] font-bold leading-[1.05] tracking-[-0.025em] sm:text-5xl sm:leading-[1.02] sm:tracking-[-0.03em] md:text-[4.5rem]">
               Build Your
               <span className="block text-brand-gradient">Essence.</span>
             </h1>
 
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-foreground/60 md:text-xl">
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/60 sm:mt-7 sm:text-lg md:text-xl">
               A learning institute born in a Lucknow classroom. We teach the complete
               professional —{' '}
               <span className="text-foreground/85">
@@ -46,10 +46,10 @@ export function Hero() {
               — live, by real mentors, in English and Hinglish. Completely free.
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 href="/live"
-                className="inline-flex items-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-brand-500"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-700 px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-cta transition hover:bg-brand-500"
               >
                 <Play className="h-4 w-4 fill-current" />
                 Watch Latest Class
@@ -58,7 +58,7 @@ export function Hero() {
                 href={site.social.youtube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-sm font-semibold text-brand-700 transition hover:border-brand-500 hover:bg-brand-100"
               >
                 <Youtube className="h-4 w-4" />
                 Subscribe — Free

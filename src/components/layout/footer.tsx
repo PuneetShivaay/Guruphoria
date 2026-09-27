@@ -45,10 +45,10 @@ const socials = [
 export function Footer() {
   return (
     <footer className="border-t border-border bg-surface text-foreground">
-      <div className="mx-auto max-w-content px-6 py-16">
-        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
+      <div className="mx-auto max-w-content px-5 py-12 sm:px-6 sm:py-16">
+        <div className="grid gap-10 sm:grid-cols-2 sm:gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           {/* ---- brand + address ---- */}
-          <div>
+          <div className="sm:col-span-2 md:col-span-1">
             <div className="flex items-center gap-2.5">
               <Image
                 src="/logo.png"
@@ -123,7 +123,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-border pt-7 text-[11px] uppercase tracking-[0.14em] text-foreground/50">
+        <div className="mt-12 flex flex-col items-center gap-3 border-t border-border pt-7 text-center text-[11px] uppercase tracking-[0.14em] text-foreground/50 sm:mt-14 sm:flex-row sm:flex-wrap sm:justify-between sm:gap-x-6 sm:text-left">
           <span>
             © {new Date().getFullYear()} {site.name} · {site.address.city}, India
           </span>

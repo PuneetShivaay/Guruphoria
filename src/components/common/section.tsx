@@ -31,7 +31,7 @@ export function Section({
 }) {
   return (
     <section className={cn('relative', toneClass[tone], className)}>
-      <div className={cn('mx-auto max-w-content px-6 py-20 md:py-24', containerClassName)}>
+      <div className={cn('mx-auto max-w-content px-5 py-14 sm:px-6 sm:py-20 md:py-24', containerClassName)}>
         {children}
       </div>
     </section>
@@ -86,7 +86,7 @@ export function SectionHeading({
       <SectionLabel onDeep={onDeep}>{label}</SectionLabel>
       <h2
         className={cn(
-          'mt-4 text-3xl font-bold tracking-tight md:text-4xl',
+          'mt-4 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl',
           onDeep ? 'text-white' : 'text-foreground',
         )}
       >
@@ -95,7 +95,7 @@ export function SectionHeading({
       {intro && (
         <p
           className={cn(
-            'mt-4 text-base leading-relaxed md:text-lg',
+            'mt-4 text-[15px] leading-relaxed sm:text-base md:text-lg',
             onDeep ? 'text-white/65' : 'text-foreground/55',
           )}
         >
@@ -160,12 +160,12 @@ export function StatStrip({
       )}
     >
       {items.map((s) => (
-        <div key={s.label} className={cn('px-6 py-7', onDeep ? 'bg-brand-900' : 'bg-card')}>
+        <div key={s.label} className={cn('px-4 py-5 sm:px-6 sm:py-7', onDeep ? 'bg-brand-900' : 'bg-card')}>
           <dt className="sr-only">{s.label}</dt>
           <dd>
             <span
               className={cn(
-                'block font-headline text-3xl font-bold',
+                'block font-headline text-2xl font-bold sm:text-3xl',
                 onDeep ? 'text-white' : 'text-brand-700',
               )}
             >
@@ -173,7 +173,7 @@ export function StatStrip({
             </span>
             <span
               className={cn(
-                'mt-1.5 block text-[11px] font-medium uppercase tracking-[0.14em]',
+                'mt-1.5 block text-[10px] font-medium uppercase tracking-[0.1em] sm:text-[11px] sm:tracking-[0.14em]',
                 onDeep ? 'text-white/55' : 'text-foreground/45',
               )}
             >

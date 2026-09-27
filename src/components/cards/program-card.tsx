@@ -20,7 +20,7 @@ export function ProgramCard({
   className?: string;
 }) {
   return (
-    <article className={cn('card-hairline flex flex-col p-8', className)}>
+    <article className={cn('card-hairline flex flex-col p-6 sm:p-8', className)}>
       <div className="flex flex-wrap items-center gap-2">
         {program.status === 'growing' ? (
           <Chip tone="live">New · Growing</Chip>
@@ -32,10 +32,12 @@ export function ProgramCard({
         ))}
       </div>
 
-      <h3 className="mt-5 font-headline text-2xl font-bold tracking-tight text-brand-700">
+      <h3 className="mt-5 font-headline text-xl font-bold tracking-tight text-brand-700 sm:text-2xl">
         {program.title}
       </h3>
-      <p className="mt-3 leading-relaxed text-foreground/60">{program.blurb}</p>
+      <p className="mt-3 text-[15px] leading-relaxed text-foreground/60 sm:text-base">
+        {program.blurb}
+      </p>
 
       <ol className="mt-6 flex-1 space-y-2.5 border-t border-brand-700/10 pt-6">
         {program.modules.map((m, i) => (

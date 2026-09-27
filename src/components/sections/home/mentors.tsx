@@ -24,7 +24,7 @@ export function Mentors() {
             <Link
               key={m.slug}
               href="/contact"
-              className="group flex items-center gap-4 rounded-2xl border border-dashed border-brand-700/20 p-5 transition hover:border-brand-500/60 hover:bg-brand-50"
+              className="group flex min-w-0 items-center gap-4 rounded-2xl border border-dashed border-brand-700/20 p-5 transition hover:border-brand-500/60 hover:bg-brand-50"
             >
               <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-dashed border-brand-700/25 text-brand-500">
                 <Plus className="h-5 w-5" />
@@ -39,7 +39,7 @@ export function Mentors() {
               </span>
             </Link>
           ) : (
-            <article key={m.slug} className="card-hairline flex items-center gap-4 p-5">
+            <article key={m.slug} className="card-hairline flex min-w-0 items-center gap-4 p-5">
               {m.photo ? (
                 <Image
                   src={m.photo}

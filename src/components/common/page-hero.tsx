@@ -27,16 +27,16 @@ export function PageHero({
       <div className="pointer-events-none absolute inset-0 bg-brand-wash" aria-hidden />
       <div className="pointer-events-none absolute inset-0 bg-grid" aria-hidden />
 
-      <div className="relative mx-auto max-w-content px-6 pb-16 pt-14 md:pb-20 md:pt-20">
+      <div className="relative mx-auto max-w-content px-5 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-14 md:pb-20 md:pt-20">
         <div className="animate-reveal">
           <SectionLabel>{label}</SectionLabel>
 
-          <h1 className="mt-4 max-w-3xl font-headline text-4xl font-bold leading-[1.05] tracking-[-0.025em] md:text-6xl">
+          <h1 className="mt-4 max-w-3xl font-headline text-[2rem] font-bold leading-[1.1] tracking-[-0.02em] sm:text-4xl sm:leading-[1.05] sm:tracking-[-0.025em] md:text-6xl">
             {title}
           </h1>
 
           {intro && (
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/60">
+            <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-foreground/60 sm:mt-6 sm:text-lg">
               {intro}
             </p>
           )}

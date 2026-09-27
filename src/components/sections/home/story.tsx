@@ -78,7 +78,7 @@ export function Proof() {
           title="200+ students. Real names, real outcomes."
           className="max-w-xl"
         />
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           {site.ratings.map((r) => (
             <RatingBadge
               key={r.source}
@@ -91,10 +91,12 @@ export function Proof() {
         </div>
       </div>
 
-      <div className="mt-12 grid gap-5 md:grid-cols-3">
+      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 sm:mt-12">
         {testimonials.map((t, i) => (
-          <figure key={i} className="card-hairline flex flex-col p-7">
-            <blockquote className="flex-1 font-headline text-lg leading-relaxed tracking-tight text-brand-700">
+          /* min-w-0: grid items default to min-width:auto, which would let the
+             nowrap caption below force the card wider than the viewport. */
+          <figure key={i} className="card-hairline flex min-w-0 flex-col p-6 sm:p-7">
+            <blockquote className="flex-1 font-headline text-base leading-relaxed tracking-tight text-brand-700 sm:text-lg">
               &ldquo;{t.quote}&rdquo;
             </blockquote>
             <figcaption className="mt-6 flex items-center gap-3 border-t border-brand-700/10 pt-5">

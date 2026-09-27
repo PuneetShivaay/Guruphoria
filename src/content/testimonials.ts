@@ -22,8 +22,8 @@ export const testimonials: Testimonial[] = [
   {
     quote:
       'I built my first full website in the live class and used it as my project in placement interviews.',
-    name: 'Student Name',
-    photo: '',
+    name: 'Aman Tiwari',
+    photo: '/images/students/aman.png',
     program: 'Web Development',
     year: '2021',
     now: 'Frontend Developer',
@@ -31,8 +31,8 @@ export const testimonials: Testimonial[] = [
   {
     quote:
       'The English classes changed how I speak in interviews. That mattered more than any certificate.',
-    name: 'Student Name',
-    photo: '',
+    name: 'Raj Dubey',
+    photo: '/images/students/raj.png',
     program: 'Communication & Personality',
     year: '2021',
     now: 'B.Tech final year',
@@ -40,8 +40,8 @@ export const testimonials: Testimonial[] = [
   {
     quote:
       'Pandas felt impossible until the live series. Sir taught the same thing three ways until it clicked.',
-    name: 'Student Name',
-    photo: '',
+    name: 'Prabhjot Kaur',
+    photo: '/images/students/prabhjot.png',
     program: 'Data & Python',
     year: '2020',
     now: 'Data Analyst',

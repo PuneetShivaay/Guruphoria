@@ -1,7 +1,7 @@
-# Progress
+﻿# Progress
 
 > Branch `guruphoria2026` · relaunch of the Guruphoria website
-> Last updated: 27 Sep 2026
+> Last updated: 28 Sep 2026
 
 ---
 
@@ -17,6 +17,7 @@
 | 5 | Purge legacy claims | ✅ Done |
 | 6 | Real assets | ⏳ Blocked on Puneet |
 | 7 | Launch readiness | ⏳ Pending |
+| 8 | Dark mode, responsive fixes, mentor data integrity | ✅ Done |
 
 ---
 
@@ -185,6 +186,91 @@ outstanding work.
 - [ ] Analytics
 
 ---
+
+---
+
+## Phase 8 — Dark mode, responsive fixes, mentor data integrity ✅
+
+Not part of the original launch plan, but delivered together as a set of
+site-wide corrections.
+
+**Dark mode**
+
+- `ThemeProvider` (`components/providers/theme-provider.tsx`) — light, dark
+  and system, persisted to `localStorage`, with an inline script in
+  `layout.tsx` that sets the `dark` class before first paint so there is no
+  flash on load
+- `globals.css` — a full `.dark` token block; the brand ramp is not blindly
+  inverted (50–200 become dark tints, 300–600 stay bright accents, 700
+  becomes legible ink, 800–900 stay deep navy since they are the deep-surface
+  colours in both themes)
+- Header toggle (`components/layout/theme-toggle.tsx`), sun/moon icon
+
+**Footer rework**
+
+- Rebuilt on semantic tokens (`bg-surface`, `border-border`) instead of a
+  hardcoded navy fill, so it now reads as light in light mode and dark in
+  dark mode automatically
+- Added a "Designed & developed by Otical" credit to the bottom bar
+- Fixed the `Archive` link, which pointed at a route that was never built —
+  it now points at `/live`, where the archive actually renders
+
+**New route — `/moments`**
+
+- `content/moments.ts` — photographs from the offline Lucknow institute,
+  grouped by occasion (Teachers' Day, classroom, students, institute).
+  Follows the same honesty rules as `content/archive.ts`: every entry must be
+  a real photograph, `year` is always shown, nothing is invented
+- Ships with placeholder entries — photographs and captions still to be
+  supplied; empty tiles render a typographic placeholder rather than stock
+  imagery
+- Linked from the footer and from a teaser on `/story`
+
+**Mentor data integrity**
+
+- `mentors.ts` had a `teaches` field doing two incompatible jobs: it was
+  rendered as the visible subject label *and* used to build
+  `/programs/<slug>` links. Editorial copy such as `'QA-Testing & Automation'`
+  therefore produced a dead link, and the "Taught by" list on every program
+  page was silently empty because nothing matched a real slug
+- Replaced with `subjects: { label; programSlug? }[]` — the label is free
+  text a mentor's page controls; the slug is optional, internal, and typed as
+  `ProgramSlug` so an invalid value fails the build instead of shipping a
+  broken link
+- Mentors without a matching program (QA, Marketing) now render as plain
+  text rather than a dead link; Blockchain links to AI & Emerging Tech
+- Same fix applied to `content/programs.ts`'s `audiences` array, which had
+  the identical problem — untyped, so its `programs` field had silently
+  widened to `string[]`
+
+**Mobile responsiveness**
+
+- Root cause of the worst bug: grid items default to `min-width: auto`, so a
+  `truncate` caption inside a grid item (testimonials, mentor cards) could
+  not actually shrink — the card expanded to fit the un-truncated text and
+  pushed the page wider than the viewport. Fixed with `min-w-0` on the grid
+  items themselves, not just their children
+- Section padding, heading sizes and card padding now step down below `sm`
+  rather than only changing at `md`
+- Grids step 1 → 2 → 3 columns instead of jumping straight to 3
+- Hero and footer CTAs stack full-width on mobile instead of wrapping
+- `overflow-x-hidden` added to `<body>` as a safety net
+
+**Code quality**
+
+- Replaced single-letter callback parameters (`m`, `p`, `l`, `t`, `r`, `v`,
+  `i`) with descriptive names across `app/` and `components/sections`. Worst
+  case was `programs/[slug]/page.tsx`, where `m` meant *mentor* in one block
+  and *module* in another
+
+**Also fixed**
+
+- Hydration warning from browser extensions (component locators) injecting
+  attributes into `<head>` before React hydrates — added
+  `suppressHydrationWarning` there, matching the existing one on `<html>`
+- Case-sensitivity bug: `mentors.ts` referenced `puneet.PNG` while the file on
+  disk is `puneet.png`. Resolves silently on Windows, 404s on Linux hosts
+  such as Netlify
 
 ## Open decisions
 

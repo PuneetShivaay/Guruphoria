@@ -1,7 +1,7 @@
 ﻿# Progress
 
 > Branch `guruphoria2026` · relaunch of the Guruphoria website
-> Last updated: 28 Sep 2026
+> Last updated: 06 Oct 2026
 
 ---
 
@@ -18,6 +18,7 @@
 | 6 | Real assets | ⏳ Blocked on Puneet |
 | 7 | Launch readiness | ⏳ Pending |
 | 8 | Dark mode, responsive fixes, mentor data integrity | ✅ Done |
+| 9 | Firebase removal, crash resilience, favicon | ✅ Done |
 
 ---
 
@@ -272,6 +273,54 @@ site-wide corrections.
   disk is `puneet.png`. Resolves silently on Windows, 404s on Linux hosts
   such as Netlify
 
+## Phase 9 — Firebase removal, crash resilience, favicon ✅
+
+Triggered by investigating why Google's cached snippet for the live site
+showed "Untitled — Application error: a client-side exception has occurred"
+instead of the real title/description.
+
+**Root cause**
+
+- `app/layout.tsx` wrapped the entire site in `FirebaseClientProvider`, which
+  initialised Firebase App, Auth and Firestore on *every* page load — despite
+  no page or component anywhere in `app/` or `components/` actually calling
+  `useFirestore`, `useAuth`, `useCollection` or `useDoc`. It was dead
+  plumbing from the original scaffold
+- That provider rendered `FirebaseErrorListener`, which `throw`s any Firestore
+  permission error so it bubbles up as a React error. With no
+  `error.tsx` / `global-error.tsx` anywhere in `app/`, an uncaught throw fell
+  through to Next.js's own blank, title-less default error page — exactly
+  what Google had indexed
+- Separately, Node 25's experimental global `localStorage` is broken unless
+  started with `--localstorage-file`; Firebase Auth sniffs for it during SSR
+  and throws `TypeError: localStorage.getItem is not a function`. An existing
+  `instrumentation.ts` patched this at runtime by deleting the broken global
+
+**Fixes**
+
+- Removed `FirebaseClientProvider` from `app/layout.tsx`; deleted the entire
+  `src/firebase/` directory, `components/providers/FirebaseErrorListener.tsx`,
+  `apphosting.yaml` (Firebase App Hosting config, irrelevant to Netlify), and
+  the `firebase` package from `package.json`
+- Replaced the runtime `instrumentation.ts` patch with the correct fix: pass
+  `NODE_OPTIONS=--no-experimental-webstorage` (via `cross-env`, for
+  Windows/Linux parity) in the `dev`, `build` and `start` scripts, so the
+  broken Node global is disabled at the source instead of patched around
+- Added `app/global-error.tsx` and `app/error.tsx` as safety nets — any
+  future unexpected error now renders a branded, `noindex` "Something went
+  wrong" screen with a real `<title>`, instead of Next's blank fallback
+- Net effect: every route is now static/SSG with no client-side Firebase
+  runtime at all (confirmed via `npm run build` — all 16 routes `○`/`●`)
+
+**Favicon**
+
+- `app/favicon.ico` (a leftover scaffold default) was silently taking
+  priority over the `icons` metadata in `layout.tsx`. Deleted it and pointed
+  `icons.icon` / `icons.shortcut` / `icons.apple` at `public/logoRound.png`
+  so the actual brand mark is used everywhere a favicon is requested
+
+---
+
 ## Open decisions
 
 | # | Question | Recommendation | Status |
@@ -281,3 +330,4 @@ site-wide corrections.
 | 3 | Logo redraw | Keep concept, refine geometry | Open |
 | 4 | Paid cohorts later | Free now; structure allows it later | Deferred |
 | 5 | English/Hinglish filter | Build it — genuine differentiator | Planned |
+

@@ -3,7 +3,6 @@ import './globals.css';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
-import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { ThemeProvider, themeInitScript } from '@/components/providers/theme-provider';
 import { site } from '@/content/site';
 
@@ -26,8 +25,9 @@ export const metadata: Metadata = {
     'AI agents tutorial',
   ],
   icons: {
-    icon: '/logo.png',
-    apple: '/logo.png',
+    icon: '/logoRound.png',
+    shortcut: '/logoRound.png',
+    apple: '/logoRound.png',
   },
   authors: [{ name: 'Puneet Shivaay' }],
   publisher: site.legalName,
@@ -141,14 +141,12 @@ export default function RootLayout({
       </head>
       <body className="overflow-x-hidden font-body antialiased selection:bg-brand-500 selection:text-white">
         <ThemeProvider defaultTheme="light">
-          <FirebaseClientProvider>
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <main className="flex-grow">{children}</main>
-              <Footer />
-            </div>
-            <Toaster />
-          </FirebaseClientProvider>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

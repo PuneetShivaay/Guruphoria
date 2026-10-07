@@ -356,12 +356,14 @@ drifted from it with leftover scaffold debris. This phase closes that gap.
 - Verified with `tsc --noEmit` (clean) and `npm run build` (16 routes,
   unchanged output) after the dependency removal
 
-**10.2 — Stop silently ignoring build errors ⏳ next**
+**10.2 — Stop silently ignoring build errors ✅**
 
-`next.config.ts` currently sets `typescript.ignoreBuildErrors: true` and
-`eslint.ignoreDuringBuilds: true`, meaning type errors and lint errors can
-ship to production silently. Plan: remove both flags, run a full build, and
-fix whatever surfaces.
+`next.config.ts` set `typescript.ignoreBuildErrors: true` and
+`eslint.ignoreDuringBuilds: true`, meaning type errors and lint errors could
+ship to production silently. Removed both flags. `npm run build` now
+actually runs "Linting and checking validity of types" as a build step —
+confirmed clean with zero errors, so the codebase was already compliant and
+these flags were pure unnecessary risk with no code debt behind them.
 
 **10.3 — Explicit ESLint config — not started**
 

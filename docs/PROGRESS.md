@@ -365,13 +365,40 @@ actually runs "Linting and checking validity of types" as a build step —
 confirmed clean with zero errors, so the codebase was already compliant and
 these flags were pure unnecessary risk with no code debt behind them.
 
-**10.3 — Explicit ESLint config — not started**
+**10.3 — Explicit ESLint config ✅**
 
-No `.eslintrc`/`eslint.config.*` exists; `next lint` is running on implicit
-defaults. Plan: add an explicit config that enforces the layer rules already
-documented in `ARCHITECTURE.md` §2 (e.g. `content/` must not import React or
-components), plus `no-unused-vars` as an error so dead code like 10.1 cannot
-silently reaccumulate.
+ESLint wasn't even installed (`eslint-config-next: N/A` in `next info`) —
+`next lint` was running on an implicit, unpinned default. Added:
+- `eslint` and `eslint-config-next` pinned to the Next.js version, as real
+  devDependencies
+- `.eslintrc.json` extending `next/core-web-vitals` + `next/typescript`,
+  with `@typescript-eslint/no-unused-vars` promoted to an **error** (was
+  only a warning before — this is exactly the rule that would have caught
+  the Phase 10.1 dead code earlier), plus `no-console` as a warning
+- Per-directory `no-restricted-imports` overrides that mechanically enforce
+  the layer rules already documented in `ARCHITECTURE.md` §2:
+  `content/**` cannot import React, Next APIs or components;
+  `components/common/**` cannot import from `sections/` or `app/`;
+  `components/sections/**` cannot import from `app/`
+
+Running the new config surfaced and fixed four real issues:
+- `app/error.tsx` / `global-error.tsx` used `<a>` instead of `next/link` for
+  internal navigation. Fixed in `error.tsx`; kept as `<a>` with a documented
+  suppression in `global-error.tsx`, since that boundary replaces the root
+  layout during a catastrophic error and the router context `Link` needs
+  may not be mounted — a hard navigation is the safer choice there
+- `app/mentors/page.tsx` imported `SectionHeading` without using it
+- `hooks/use-toast.ts` (generated shadcn/ui file) flagged `actionTypes` as
+  unused — it's only consumed via `typeof`, a documented suppression was
+  added rather than rewriting generated code
+- `app/layout.tsx`'s Google Fonts `<link>` tripped `no-page-custom-font`, a
+  rule designed for the legacy Pages Router's per-page `_document.js`
+  pattern; false positive in the root App Router layout, suppressed with
+  a comment explaining why
+
+`npm run lint` → zero warnings or errors. `npm run build` → unchanged, all
+16 routes, now actually running "Linting and checking validity of types" as
+a build step (re-enabled in 10.2) with nothing to catch.
 
 **10.4 — Test infrastructure — not started**
 

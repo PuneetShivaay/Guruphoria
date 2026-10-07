@@ -1,7 +1,7 @@
 ﻿# Progress
 
 > Branch `guruphoria2026` · relaunch of the Guruphoria website
-> Last updated: 06 Oct 2026
+> Last updated: 07 Oct 2026
 
 ---
 
@@ -19,6 +19,7 @@
 | 7 | Launch readiness | ⏳ Pending |
 | 8 | Dark mode, responsive fixes, mentor data integrity | ✅ Done |
 | 9 | Firebase removal, crash resilience, favicon | ✅ Done |
+| 10 | Enterprise hardening: dead code, build strictness, lint, tests, CI | ⏳ In progress |
 
 ---
 
@@ -318,6 +319,73 @@ instead of the real title/description.
   priority over the `icons` metadata in `layout.tsx`. Deleted it and pointed
   `icons.icon` / `icons.shortcut` / `icons.apple` at `public/logoRound.png`
   so the actual brand mark is used everywhere a favicon is requested
+
+---
+
+## Phase 10 — Enterprise hardening ⏳ in progress
+
+Prompted by a full codebase review against `docs/ARCHITECTURE.md`'s own
+stated layer rules. The documented architecture was sound; the repo had
+drifted from it with leftover scaffold debris. This phase closes that gap.
+
+**10.1 — Remove dead scaffold code ✅**
+
+- `src/lib/types.ts` deleted — `YouTubeVideo`, `MediumArticle`,
+  `GitHubRepository`, `Course`, `ContactMessage`, `NewsletterSubscription`,
+  `CourseFormData` were all unused anywhere in the codebase; leftovers from
+  the original Firebase Studio scaffold's imagined feature set
+- `src/ai/` deleted (`genkit.ts`, `dev.ts`, `flows/topic-specific-recommendations.ts`)
+  — a Genkit recommendation flow never called from any route or component.
+  `docs/AI_FLOWS.md` rewritten to record the removal rather than describe a
+  feature that doesn't exist
+- Removed `genkit`, `@genkit-ai/google-genai`, `@genkit-ai/next`,
+  `genkit-cli`, `zod`, `dotenv` from `package.json` (all were dependencies of
+  the deleted AI flow only) and the `genkit:dev` / `genkit:watch` scripts.
+  **559 packages removed** from `node_modules`; `npm audit` vulnerabilities
+  dropped from 119 to 21
+- Deleted orphaned root `firestore.rules` (no Firestore usage remains after
+  Phase 9) and the empty `src/config/` directory
+- Fixed three docs that had drifted from reality:
+  - `docs/STRUCTURE.md` described routes (`(auth)/`, `courses/`, `explore/`,
+    `projects/`) that don't exist post-relaunch — rewritten to match the
+    actual `src/app/` tree and marked as secondary to `ARCHITECTURE.md`
+  - `docs/ARCHITECTURE.md` §2 and §7 still listed `firebase/` and
+    `instrumentation.ts`, both removed in Phase 9 — corrected
+  - `docs/CONTRIBUTING.md`'s environment note still mentioned
+    `src/instrumentation.ts` and Firebase — corrected
+- Verified with `tsc --noEmit` (clean) and `npm run build` (16 routes,
+  unchanged output) after the dependency removal
+
+**10.2 — Stop silently ignoring build errors ⏳ next**
+
+`next.config.ts` currently sets `typescript.ignoreBuildErrors: true` and
+`eslint.ignoreDuringBuilds: true`, meaning type errors and lint errors can
+ship to production silently. Plan: remove both flags, run a full build, and
+fix whatever surfaces.
+
+**10.3 — Explicit ESLint config — not started**
+
+No `.eslintrc`/`eslint.config.*` exists; `next lint` is running on implicit
+defaults. Plan: add an explicit config that enforces the layer rules already
+documented in `ARCHITECTURE.md` §2 (e.g. `content/` must not import React or
+components), plus `no-unused-vars` as an error so dead code like 10.1 cannot
+silently reaccumulate.
+
+**10.4 — Test infrastructure — not started**
+
+No test runner exists in the repo. Plan: add Vitest + React Testing Library.
+First tests to write:
+- A content-integrity test asserting every `mentors.ts` `subjects[].programSlug`
+  and every `programs.ts` `audiences[].programs` entry resolves to a real
+  program slug — this is the exact class of bug fixed by hand in Phase 8
+  (mentor data integrity); a test makes it impossible to regress silently
+- Smoke tests for a handful of key components (Header, ProgramCard)
+
+**10.5 — CI pipeline — not started**
+
+No `.github/workflows` exists; `typecheck`/`lint`/`build` only run locally.
+Plan: add a GitHub Actions workflow running typecheck, lint, test and build
+on every push/PR to `guruphoria2026` and `main`.
 
 ---
 

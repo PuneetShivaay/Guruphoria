@@ -46,9 +46,7 @@ src/
 │   └── story.ts              # Timeline + archive photos
 │
 ├── lib/                      # Framework-agnostic helpers, external APIs
-├── firebase/                 # Firebase client + provider
-├── hooks/                    # Shared React hooks
-└── instrumentation.ts        # Node-runtime bootstrap (see §7)
+└── hooks/                    # Shared React hooks
 ```
 
 ### Layer rules
@@ -172,21 +170,17 @@ If a PR adds a number, the reviewer asks: *where does this come from?*
 
 ## 7. Runtime notes
 
-### `instrumentation.ts`
-
-Node 22+ exposes an experimental global `localStorage` that is unusable unless
-`--localstorage-file` is given a valid path. Firebase Auth sniffs for
-`localStorage` to detect a browser, finds the broken global during SSR, and
-throws `TypeError: localStorage.getItem is not a function`.
-
-The instrumentation hook runs before any other server module is evaluated,
-which is the only point early enough to delete the global. Do not move this
-logic into application code — module import order will defeat it.
-
 ### Node version
 
-Next.js 15 targets Node 20/22 LTS. Node 25 is unsupported and is the source of
-the issue above.
+Next.js 15 targets Node 20/22 LTS. Node 25 exposes an experimental global
+`localStorage` that is unusable unless `--localstorage-file` is given a valid
+path, which breaks SSR with `TypeError: localStorage.getItem is not a
+function`. `package.json`'s `dev` / `build` / `start` scripts set
+`NODE_OPTIONS=--no-experimental-webstorage` (via `cross-env`, for
+Windows/Linux parity) to disable it at the source — see `docs/PROGRESS.md`
+Phase 9. Firebase has since been removed entirely (it was unused dead
+plumbing), but the Node flag stays regardless, since the broken global is a
+platform issue independent of Firebase.
 
 ---
 

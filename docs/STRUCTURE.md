@@ -1,37 +1,39 @@
 # Project Structure
 
+> **Note:** this file predates the 2026 relaunch and described routes
+> (`(auth)/`, `courses/`, `explore/`, `projects/`) that no longer exist. See
+> `docs/ARCHITECTURE.md` §2 for the authoritative, current directory layout
+> and layer rules. This file is kept only as a lighter-weight orientation
+> doc and should be updated alongside `ARCHITECTURE.md`, not independently.
+
 The project follows a modular and scalable directory structure optimized for Next.js 15.
 
 ## Directory Breakdown
 
 ### `src/app/`
-Contains the application's routes and page definitions.
-- `(auth)/`: Authentication-related routes.
-- `courses/`: Tutorial listing and dynamic viewer.
-- `explore/`: Global search and content discovery.
-- `projects/`: Open-source portfolio.
+Routes (App Router) — one folder per route: `contact/`, `live/`, `mentors/`,
+`moments/`, `programs/` (with `[slug]/`), `story/`. Plus `layout.tsx`
+(root shell), `page.tsx` (homepage), `error.tsx` / `global-error.tsx` (error
+boundaries), `sitemap.ts`, `robots.ts`.
 
 ### `src/components/`
 Reusable UI components.
-- `layout/`: Global elements like Header, Footer, and Logo.
-- `sections/`: High-level page sections (e.g., Hero, WhyGuruphoria).
-- `ui/`: Atomic Shadcn UI components.
-- `ai/`: AI-specific UI elements (e.g., Recommendations).
+- `layout/`: Global elements — Header, Footer, Logo, ThemeToggle.
+- `sections/<page>/`: Page-specific composed sections (e.g. `sections/home/`).
+- `common/`: Design-system primitives shared across pages (Section, PageHero).
+- `cards/`: Reusable card components (ProgramCard, VideoCard).
+- `providers/`: Context providers (ThemeProvider).
+- `ui/`: Atomic shadcn/ui components — generated, rarely hand-edited.
 
-### `src/firebase/`
-Core Firebase integration logic.
-- `config.ts`: Firebase environment configuration.
-- `provider.tsx`: React Context for sharing Firebase instances.
-- `firestore/`: Custom hooks (`useCollection`, `useDoc`) for real-time data.
-- `non-blocking-updates.ts`: Utilities for optimistic UI updates.
-
-### `src/ai/`
-Generative AI implementation.
-- `flows/`: Definitions of Genkit workflows.
-- `genkit.ts`: Initialization of the Genkit AI instance.
+### `src/content/`
+Typed, editorial content — the single source of truth for copy and data.
+`site.ts`, `programs.ts`, `mentors.ts`, `testimonials.ts`, `story.ts`,
+`archive.ts`, `moments.ts`.
 
 ### `src/lib/`
-Utilities and shared logic.
-- `youtube.ts`, `github.ts`, `medium.ts`: External API integration services.
-- `types.ts`: Global TypeScript interfaces.
-- `placeholder-images.ts`: Centralized asset management.
+Framework-agnostic helpers.
+- `utils.ts`: `cn()` class-merging helper.
+- `placeholder-images.ts` / `.json`: centralized placeholder asset data.
+
+### `src/hooks/`
+Shared React hooks (`use-mobile`, `use-toast`).

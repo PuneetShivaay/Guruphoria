@@ -1,0 +1,63 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
+  },
+  "overrides": [
+    {
+      "files": ["src/content/**/*.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              { "name": "react", "message": "src/content/** is pure data and must not import React. See docs/ARCHITECTURE.md \u00a72." }
+            ],
+            "patterns": [
+              {
+                "group": ["@/components/*", "next/*"],
+                "message": "src/content/** is pure data and must not import components or Next.js APIs. See docs/ARCHITECTURE.md \u00a72."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/common/**/*.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/components/sections/*", "@/app/*"],
+                "message": "components/common/** are shared primitives and must not import from sections/ or app/. See docs/ARCHITECTURE.md \u00a72."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/sections/**/*.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/app/*"],
+                "message": "components/sections/** must not import from app/. See docs/ARCHITECTURE.md \u00a72."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

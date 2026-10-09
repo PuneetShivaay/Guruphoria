@@ -156,5 +156,6 @@ Then check:
 ## Environment
 
 Use **Node 20 or 22 LTS**. Node 25 exposes a broken experimental
-`localStorage` global that breaks Firebase during SSR; `src/instrumentation.ts`
-works around it, but the supported path is the LTS runtime.
+`localStorage` global that breaks SSR. `package.json`'s scripts set
+`NODE_OPTIONS=--no-experimental-webstorage` to work around it, but the
+supported path is the LTS runtime.

@@ -1,7 +1,7 @@
 ﻿# Progress
 
 > Branch `guruphoria2026` · relaunch of the Guruphoria website
-> Last updated: 06 Oct 2026
+> Last updated: 09 Oct 2026
 
 ---
 
@@ -19,6 +19,8 @@
 | 7 | Launch readiness | ⏳ Pending |
 | 8 | Dark mode, responsive fixes, mentor data integrity | ✅ Done |
 | 9 | Firebase removal, crash resilience, favicon | ✅ Done |
+| 10 | Enterprise hardening: dead code, build strictness, lint, tests, CI | ⏳ In progress |
+| 11 | `/blog` — real Medium feed, no proxy, no mock fallback | ✅ Done |
 
 ---
 
@@ -318,6 +320,169 @@ instead of the real title/description.
   priority over the `icons` metadata in `layout.tsx`. Deleted it and pointed
   `icons.icon` / `icons.shortcut` / `icons.apple` at `public/logoRound.png`
   so the actual brand mark is used everywhere a favicon is requested
+
+---
+
+## Phase 10 — Enterprise hardening ⏳ in progress
+
+Prompted by a full codebase review against `docs/ARCHITECTURE.md`'s own
+stated layer rules. The documented architecture was sound; the repo had
+drifted from it with leftover scaffold debris. This phase closes that gap.
+
+**10.1 — Remove dead scaffold code ✅**
+
+- `src/lib/types.ts` deleted — `YouTubeVideo`, `MediumArticle`,
+  `GitHubRepository`, `Course`, `ContactMessage`, `NewsletterSubscription`,
+  `CourseFormData` were all unused anywhere in the codebase; leftovers from
+  the original Firebase Studio scaffold's imagined feature set
+- `src/ai/` deleted (`genkit.ts`, `dev.ts`, `flows/topic-specific-recommendations.ts`)
+  — a Genkit recommendation flow never called from any route or component.
+  `docs/AI_FLOWS.md` rewritten to record the removal rather than describe a
+  feature that doesn't exist
+- Removed `genkit`, `@genkit-ai/google-genai`, `@genkit-ai/next`,
+  `genkit-cli`, `zod`, `dotenv` from `package.json` (all were dependencies of
+  the deleted AI flow only) and the `genkit:dev` / `genkit:watch` scripts.
+  **559 packages removed** from `node_modules`; `npm audit` vulnerabilities
+  dropped from 119 to 21
+- Deleted orphaned root `firestore.rules` (no Firestore usage remains after
+  Phase 9) and the empty `src/config/` directory
+- Fixed three docs that had drifted from reality:
+  - `docs/STRUCTURE.md` described routes (`(auth)/`, `courses/`, `explore/`,
+    `projects/`) that don't exist post-relaunch — rewritten to match the
+    actual `src/app/` tree and marked as secondary to `ARCHITECTURE.md`
+  - `docs/ARCHITECTURE.md` §2 and §7 still listed `firebase/` and
+    `instrumentation.ts`, both removed in Phase 9 — corrected
+  - `docs/CONTRIBUTING.md`'s environment note still mentioned
+    `src/instrumentation.ts` and Firebase — corrected
+- Verified with `tsc --noEmit` (clean) and `npm run build` (16 routes,
+  unchanged output) after the dependency removal
+
+**10.2 — Stop silently ignoring build errors ✅**
+
+`next.config.ts` set `typescript.ignoreBuildErrors: true` and
+`eslint.ignoreDuringBuilds: true`, meaning type errors and lint errors could
+ship to production silently. Removed both flags. `npm run build` now
+actually runs "Linting and checking validity of types" as a build step —
+confirmed clean with zero errors, so the codebase was already compliant and
+these flags were pure unnecessary risk with no code debt behind them.
+
+**10.3 — Explicit ESLint config ✅**
+
+ESLint wasn't even installed (`eslint-config-next: N/A` in `next info`) —
+`next lint` was running on an implicit, unpinned default. Added:
+- `eslint` and `eslint-config-next` pinned to the Next.js version, as real
+  devDependencies
+- `.eslintrc.json` extending `next/core-web-vitals` + `next/typescript`,
+  with `@typescript-eslint/no-unused-vars` promoted to an **error** (was
+  only a warning before — this is exactly the rule that would have caught
+  the Phase 10.1 dead code earlier), plus `no-console` as a warning
+- Per-directory `no-restricted-imports` overrides that mechanically enforce
+  the layer rules already documented in `ARCHITECTURE.md` §2:
+  `content/**` cannot import React, Next APIs or components;
+  `components/common/**` cannot import from `sections/` or `app/`;
+  `components/sections/**` cannot import from `app/`
+
+Running the new config surfaced and fixed four real issues:
+- `app/error.tsx` / `global-error.tsx` used `<a>` instead of `next/link` for
+  internal navigation. Fixed in `error.tsx`; kept as `<a>` with a documented
+  suppression in `global-error.tsx`, since that boundary replaces the root
+  layout during a catastrophic error and the router context `Link` needs
+  may not be mounted — a hard navigation is the safer choice there
+- `app/mentors/page.tsx` imported `SectionHeading` without using it
+- `hooks/use-toast.ts` (generated shadcn/ui file) flagged `actionTypes` as
+  unused — it's only consumed via `typeof`, a documented suppression was
+  added rather than rewriting generated code
+- `app/layout.tsx`'s Google Fonts `<link>` tripped `no-page-custom-font`, a
+  rule designed for the legacy Pages Router's per-page `_document.js`
+  pattern; false positive in the root App Router layout, suppressed with
+  a comment explaining why
+
+`npm run lint` → zero warnings or errors. `npm run build` → unchanged, all
+16 routes, now actually running "Linting and checking validity of types" as
+a build step (re-enabled in 10.2) with nothing to catch.
+
+**10.4 — Test infrastructure — not started**
+
+No test runner exists in the repo. Plan: add Vitest + React Testing Library.
+First tests to write:
+- A content-integrity test asserting every `mentors.ts` `subjects[].programSlug`
+  and every `programs.ts` `audiences[].programs` entry resolves to a real
+  program slug — this is the exact class of bug fixed by hand in Phase 8
+  (mentor data integrity); a test makes it impossible to regress silently
+- Smoke tests for a handful of key components (Header, ProgramCard)
+
+**10.5 — CI pipeline — not started**
+
+No `.github/workflows` exists; `typecheck`/`lint`/`build` only run locally.
+Plan: add a GitHub Actions workflow running typecheck, lint, test and build
+on every push/PR to `guruphoria2026` and `main`.
+
+---
+
+## Phase 11 — `/blog`: real Medium feed ✅
+
+A Medium integration existed on the pre-relaunch site (`src/lib/medium.ts`,
+an "Engineering Blog" homepage section and a `/resources` page — removed in
+the `523c6e4` relaunch commit along with the old information architecture).
+Brought back deliberately, rebuilt to match current standards — the old
+version violated two things this project now enforces:
+
+- It proxied the RSS feed through a third party (`rss2json.com`) to work
+  around CORS. Unnecessary: CORS is a browser restriction, and this fetch
+  happens server-side in a React Server Component, which can hit
+  `medium.com/feed/@puneetshivaay` directly
+- **It silently showed fabricated mock articles** ("The Rise of Agentic AI
+  Workflows...") whenever the fetch failed, with no indication to the
+  reader that the content wasn't real. That directly violates the honesty
+  rule in `ARCHITECTURE.md` §6 — this version never fabricates content; a
+  failed or empty fetch renders an honest "no posts yet, visit Medium
+  directly" state instead
+
+**Implementation**
+
+- `src/lib/medium.ts` — fetches and parses the Atom/RSS feed with
+  `fast-xml-parser` (a small, well-maintained dependency) instead of a
+  proxy. Medium wraps most fields (`title`, `content:encoded`, `category`)
+  in CDATA as `{ __cdata: string }` rather than plain strings — a
+  `unwrapCdata()` helper normalises this consistently across every field,
+  since the raw structure isn't a flat string the way the old `rss2json`
+  response shape was
+- Cached with `fetch(url, { next: { revalidate: 86400 } })` — once a day,
+  not hourly, matching actual posting cadence (deliberately chosen over the
+  default hourly guess — cheap to change later if posting frequency changes)
+- `summary` is derived by stripping HTML tags from the full content and
+  truncating — no invented descriptions
+- `src/components/cards/blog-post-card.tsx` — new card component, laid out
+  as a **horizontal row** (text left, cover image right) to match Medium's
+  own article-list layout, rather than the vertical tile pattern used by
+  `VideoCard`/`ProgramCard` elsewhere in the app. A deliberate exception:
+  this card represents an external article, not an internal program/video,
+  so echoing Medium's own visual grammar signals "this links out" before
+  the reader even clicks
+- `src/app/blog/page.tsx` — new route, server component, fetches at request
+  time (subject to the daily revalidation window), renders latest 4 posts
+  as a single-column stacked list of `BlogPostCard`s. Empty/error state is
+  plain text + a direct link to the Medium profile — never mock data
+- Added `/blog` to the header nav and footer "Guruphoria" column;
+  `sitemap.ts` updated with a `/blog` entry. The existing direct Medium
+  link in the footer/contact page (`site.social.medium`) was left
+  untouched — both surfaces coexist deliberately: `/blog` for reading
+  without leaving the site, the direct link for readers who want to
+  follow/clap/comment on Medium itself
+
+**Verified**
+
+- Local network blocked the feed fetch with a TLS interception error
+  (`self-signed certificate in certificate chain`) — confirmed via a direct
+  `curl` test that this is a local machine/proxy issue, not a code bug; the
+  honest-fallback path handled it correctly by rendering the empty state
+  rather than crashing
+- Once the CDATA-unwrapping bug was found and fixed (initial version missed
+  that `description` doesn't exist as a plain field — only
+  `content:encoded.__cdata`), real posts rendered correctly end-to-end,
+  confirmed against the live feed
+- `tsc --noEmit`, `npm run lint`, `npm run build` all clean; `/blog` builds
+  as a server-rendered route with `Revalidate: 1d`
 
 ---
 

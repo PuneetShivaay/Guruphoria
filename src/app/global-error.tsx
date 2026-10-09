@@ -40,6 +40,11 @@ export default function GlobalError({
           >
             Try again
           </button>
+          {/* Plain <a>, not next/link: this boundary replaces the root
+              layout during a catastrophic error, so the router context
+              Link depends on may not be available. A hard navigation is
+              the safe choice here. */}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a
             href="/"
             className="rounded-md border border-border px-4 py-2 font-medium hover:bg-muted"

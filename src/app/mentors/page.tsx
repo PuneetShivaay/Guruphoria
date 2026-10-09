@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Linkedin, Plus } from 'lucide-react';
 import { PageHero } from '@/components/common/page-hero';
-import { Chip, Section, SectionHeading } from '@/components/common/section';
+import { Chip, Section } from '@/components/common/section';
 import { initialsOf, mentors } from '@/content/mentors';
 
 export const metadata: Metadata = {

@@ -30,6 +30,7 @@ const columns = [
       { label: 'Our Story', href: '/story' },
       { label: 'Moments', href: '/moments' },
       { label: 'Archive', href: '/live' },
+      { label: 'Blog', href: '/blog' },
       { label: 'Contact', href: '/contact' },
     ],
   },

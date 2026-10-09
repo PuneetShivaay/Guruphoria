@@ -1,7 +1,7 @@
 ﻿# Progress
 
 > Branch `guruphoria2026` · relaunch of the Guruphoria website
-> Last updated: 07 Oct 2026
+> Last updated: 09 Oct 2026
 
 ---
 
@@ -20,6 +20,7 @@
 | 8 | Dark mode, responsive fixes, mentor data integrity | ✅ Done |
 | 9 | Firebase removal, crash resilience, favicon | ✅ Done |
 | 10 | Enterprise hardening: dead code, build strictness, lint, tests, CI | ⏳ In progress |
+| 11 | `/blog` — real Medium feed, no proxy, no mock fallback | ✅ Done |
 
 ---
 
@@ -415,6 +416,73 @@ First tests to write:
 No `.github/workflows` exists; `typecheck`/`lint`/`build` only run locally.
 Plan: add a GitHub Actions workflow running typecheck, lint, test and build
 on every push/PR to `guruphoria2026` and `main`.
+
+---
+
+## Phase 11 — `/blog`: real Medium feed ✅
+
+A Medium integration existed on the pre-relaunch site (`src/lib/medium.ts`,
+an "Engineering Blog" homepage section and a `/resources` page — removed in
+the `523c6e4` relaunch commit along with the old information architecture).
+Brought back deliberately, rebuilt to match current standards — the old
+version violated two things this project now enforces:
+
+- It proxied the RSS feed through a third party (`rss2json.com`) to work
+  around CORS. Unnecessary: CORS is a browser restriction, and this fetch
+  happens server-side in a React Server Component, which can hit
+  `medium.com/feed/@puneetshivaay` directly
+- **It silently showed fabricated mock articles** ("The Rise of Agentic AI
+  Workflows...") whenever the fetch failed, with no indication to the
+  reader that the content wasn't real. That directly violates the honesty
+  rule in `ARCHITECTURE.md` §6 — this version never fabricates content; a
+  failed or empty fetch renders an honest "no posts yet, visit Medium
+  directly" state instead
+
+**Implementation**
+
+- `src/lib/medium.ts` — fetches and parses the Atom/RSS feed with
+  `fast-xml-parser` (a small, well-maintained dependency) instead of a
+  proxy. Medium wraps most fields (`title`, `content:encoded`, `category`)
+  in CDATA as `{ __cdata: string }` rather than plain strings — a
+  `unwrapCdata()` helper normalises this consistently across every field,
+  since the raw structure isn't a flat string the way the old `rss2json`
+  response shape was
+- Cached with `fetch(url, { next: { revalidate: 86400 } })` — once a day,
+  not hourly, matching actual posting cadence (deliberately chosen over the
+  default hourly guess — cheap to change later if posting frequency changes)
+- `summary` is derived by stripping HTML tags from the full content and
+  truncating — no invented descriptions
+- `src/components/cards/blog-post-card.tsx` — new card component, laid out
+  as a **horizontal row** (text left, cover image right) to match Medium's
+  own article-list layout, rather than the vertical tile pattern used by
+  `VideoCard`/`ProgramCard` elsewhere in the app. A deliberate exception:
+  this card represents an external article, not an internal program/video,
+  so echoing Medium's own visual grammar signals "this links out" before
+  the reader even clicks
+- `src/app/blog/page.tsx` — new route, server component, fetches at request
+  time (subject to the daily revalidation window), renders latest 4 posts
+  as a single-column stacked list of `BlogPostCard`s. Empty/error state is
+  plain text + a direct link to the Medium profile — never mock data
+- Added `/blog` to the header nav and footer "Guruphoria" column;
+  `sitemap.ts` updated with a `/blog` entry. The existing direct Medium
+  link in the footer/contact page (`site.social.medium`) was left
+  untouched — both surfaces coexist deliberately: `/blog` for reading
+  without leaving the site, the direct link for readers who want to
+  follow/clap/comment on Medium itself
+
+**Verified**
+
+- Local network blocked the feed fetch with a TLS interception error
+  (`self-signed certificate in certificate chain`) — confirmed via a direct
+  `curl` test that this is a local machine/proxy issue, not a code bug; the
+  honest-fallback path handled it correctly by rendering the empty state
+  rather than crashing
+- Once the CDATA-unwrapping bug was found and fixed (initial version missed
+  that `description` doesn't exist as a plain field — only
+  `content:encoded.__cdata`), real posts rendered correctly end-to-end,
+  confirmed against the live feed
+- `tsc --noEmit`, `npm run lint`, `npm run build` all clean; `/blog` builds
+  as a server-rendered route with `Revalidate: 1d`
 
 ---
 
